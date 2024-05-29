@@ -9,6 +9,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 
+import CustomToaster from "components/Common/CustomToaster.tsx";
 import App from "./App";
 import { defaultTheme } from "./constants/themes.ts";
 import store from "./store";
@@ -21,6 +22,7 @@ root.render(
     <Provider store={store}>
       <ThemeProvider theme={defaultTheme}>
         <CssBaseline />
+        <CustomToaster />
         <App />
       </ThemeProvider>
     </Provider>

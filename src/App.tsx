@@ -6,8 +6,13 @@ import {
 import { useAppSelector } from "store";
 
 import { Box } from "@mui/material";
+import CenterLoading from "components/Common/CenterLoading";
 import AuthenticatedLayout from "components/Common/Layout/AuthenticatedLayout";
 import UnauthenticatedLayout from "components/Common/Layout/UnauthenticatedLayout";
+import Login from "components/Unauthenticated/Login";
+import Signup from "components/Unauthenticated/Signup";
+import { useEffect, useState } from "react";
+import { useLazyGetProfileQuery } from "store/api/user/userApiSlice";
 import "./App.css";
 import { selectIsLoggedIn } from "./store/slice/userSlice";
 
@@ -34,11 +39,11 @@ const publicRoutes = createBrowserRouter([
       ...sharedRoutes,
       {
         path: "signup",
-        element: <Box>Signup</Box>,
+        element: <Signup />,
       },
       {
         path: "login",
-        element: <Box>Login</Box>,
+        element: <Login />,
       },
     ],
   },
@@ -76,6 +81,21 @@ const protectedRoutes = createBrowserRouter([
 
 function App() {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const [getProfile, { isLoading }] = useLazyGetProfileQuery();
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      if (isLoggedIn) {
+        await getProfile().unwrap();
+      }
+      setInitialized(true);
+    })();
+  }, [isLoggedIn, getProfile]);
+
+  if (isLoading || !initialized) {
+    return <CenterLoading />;
+  }
 
   return isLoggedIn ? (
     <RouterProvider router={protectedRoutes} />

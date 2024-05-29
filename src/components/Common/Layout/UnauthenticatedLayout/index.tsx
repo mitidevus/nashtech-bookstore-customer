@@ -1,11 +1,11 @@
-import { Button } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import { useTheme } from "@mui/material/styles";
 import Logo from "components/Common/Logo";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { NavButton } from "../NavButton";
 
 const UnauthenticatedLayout = () => {
   const theme = useTheme();
@@ -18,55 +18,36 @@ const UnauthenticatedLayout = () => {
           height: theme.layout.headerHeight,
           backgroundColor: theme.palette.background.paper,
         }}
+        elevation={1}
       >
         <Toolbar disableGutters>
           <Container
-            maxWidth="xl"
+            maxWidth="lg"
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-
               height: "100%",
             }}
           >
-            <Logo height="80%" />
+            <Logo height="70%" />
 
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Button component={Link} to="/" color="primary">
-                Home
-              </Button>
-              <Button component={Link} to="/shop" color="primary">
-                Shop
-              </Button>
-              <Button component={Link} to="/about" color="primary">
-                About
-              </Button>
-              <Button component={Link} to="/login" color="primary">
-                Log in
-              </Button>
-              <Button
-                component={Link}
-                to="/signup"
-                color="primary"
-                size="large"
-                variant="contained"
-              >
-                Sign up
-              </Button>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <NavButton to="/" label="Home" />
+              <NavButton to="/shop" label="Shop" />
+              <NavButton to="/about" label="About" />
+              <NavButton to="/login" label="Login" />
+              <NavButton to="/signup" label="Sign up" />
             </Box>
           </Container>
         </Toolbar>
       </AppBar>
 
       <Container
-        maxWidth="xl"
+        maxWidth="lg"
         component="main"
         sx={{
           height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
-          marginTop: "10px",
-          overflow: "auto",
-          scrollbarGutter: "stable",
         }}
       >
         <Outlet />
