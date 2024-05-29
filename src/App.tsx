@@ -1,35 +1,87 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
+import { useAppSelector } from "store";
+
+import { Box } from "@mui/material";
+import AuthenticatedLayout from "components/Common/Layout/AuthenticatedLayout";
+import UnauthenticatedLayout from "components/Common/Layout/UnauthenticatedLayout";
+import "./App.css";
+import { selectIsLoggedIn } from "./store/slice/userSlice";
+
+const sharedRoutes = [
+  {
+    index: true,
+    element: <Box>Home</Box>,
+  },
+  {
+    path: "shop",
+    element: <Box>Shop</Box>,
+  },
+  {
+    path: "about",
+    element: <Box>About</Box>,
+  },
+];
+
+const publicRoutes = createBrowserRouter([
+  {
+    path: "/",
+    element: <UnauthenticatedLayout />,
+    children: [
+      ...sharedRoutes,
+      {
+        path: "signup",
+        element: <Box>Signup</Box>,
+      },
+      {
+        path: "login",
+        element: <Box>Login</Box>,
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <Navigate to={`/`} />,
+  },
+]);
+
+const protectedRoutes = createBrowserRouter([
+  {
+    path: "/",
+    element: <AuthenticatedLayout />,
+    children: [
+      ...sharedRoutes,
+      {
+        path: "orders",
+        element: <Box>Orders</Box>,
+      },
+      {
+        path: "cart",
+        element: <Box>Cart</Box>,
+      },
+      {
+        path: "profile",
+        element: <Box>Profile</Box>,
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <Navigate to={`/`} />,
+  },
+]);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  return isLoggedIn ? (
+    <RouterProvider router={protectedRoutes} />
+  ) : (
+    <RouterProvider router={publicRoutes} />
+  );
 }
 
-export default App
+export default App;

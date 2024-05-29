@@ -29,4 +29,7 @@ export const userSlice = createSlice({
   },
 });
 
+export const selectIsLoggedIn = (state: { user: UserSliceType }) =>
+  state.user.isLoggedIn;
+
 export const { setIsLoggedIn, setUserInfo, logOut } = userSlice.actions;

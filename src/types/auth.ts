@@ -11,6 +11,8 @@ export type LoginResponse = {
   user: User;
 };
 
+export type SignupResponse = LoginResponse;
+
 export type SignUpDto = LoginDto & {
   name: string;
 };
