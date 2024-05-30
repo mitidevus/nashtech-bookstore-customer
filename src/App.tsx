@@ -8,7 +8,11 @@ import { useAppSelector } from "store";
 import { Box } from "@mui/material";
 import CenterLoading from "components/Common/CenterLoading";
 import AuthenticatedLayout from "components/Common/Layout/AuthenticatedLayout";
+import ShopLayout from "components/Common/Layout/ShopLayout";
 import UnauthenticatedLayout from "components/Common/Layout/UnauthenticatedLayout";
+import AllBooks from "components/Unauthenticated/AllBooks";
+import BooksByAuthor from "components/Unauthenticated/BooksByAuthor";
+import BooksByCategory from "components/Unauthenticated/BooksByCategory";
 import Login from "components/Unauthenticated/Login";
 import Signup from "components/Unauthenticated/Signup";
 import { useEffect, useState } from "react";
@@ -23,7 +27,21 @@ const sharedRoutes = [
   },
   {
     path: "shop",
-    element: <Box>Shop</Box>,
+    element: <ShopLayout />,
+    children: [
+      {
+        index: true,
+        element: <AllBooks />,
+      },
+      {
+        path: "author/:slug",
+        element: <BooksByAuthor />,
+      },
+      {
+        path: "category/:slug",
+        element: <BooksByCategory />,
+      },
+    ],
   },
   {
     path: "about",

@@ -8,10 +8,10 @@ export const NavButton = ({ to, label }: { to: string; label: string }) => {
         component={Link}
         to={to}
         sx={{
-          color: "black",
+          color: "primary.main",
           borderRadius: "9999px",
           "&:hover": {
-            backgroundColor: "black",
+            backgroundColor: "primary.main",
             color: "white",
           },
         }}
