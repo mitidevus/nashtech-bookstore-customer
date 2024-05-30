@@ -24,7 +24,7 @@ const AuthenticatedLayout = () => {
       >
         <Toolbar disableGutters>
           <Container
-            maxWidth="lg"
+            maxWidth="xl"
             sx={{
               height: "100%",
               display: "flex",
@@ -45,7 +45,7 @@ const AuthenticatedLayout = () => {
       </AppBar>
 
       <Container
-        maxWidth="lg"
+        maxWidth="xl"
         component="main"
         sx={{
           height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,

@@ -22,7 +22,7 @@ const UnauthenticatedLayout = () => {
       >
         <Toolbar disableGutters>
           <Container
-            maxWidth="lg"
+            maxWidth="xl"
             sx={{
               display: "flex",
               alignItems: "center",
@@ -44,7 +44,7 @@ const UnauthenticatedLayout = () => {
       </AppBar>
 
       <Container
-        maxWidth="lg"
+        maxWidth="xl"
         component="main"
         sx={{
           height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
