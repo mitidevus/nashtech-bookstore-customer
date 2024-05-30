@@ -1,3 +1,4 @@
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Avatar from "@mui/material/Avatar";
@@ -40,7 +41,11 @@ const AvatarMenu = () => {
   return (
     <>
       <IconButton size="large" onClick={handleOpenUserMenu}>
-        {userInfo?.image && <Avatar alt="avatar" src={userInfo.image} />}
+        {userInfo?.image ? (
+          <Avatar alt="avatar" src={userInfo.image} />
+        ) : (
+          <AccountCircle />
+        )}
       </IconButton>
 
       <Menu

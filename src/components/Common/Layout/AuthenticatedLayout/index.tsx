@@ -3,11 +3,11 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import { useTheme } from "@mui/material/styles";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import Logo from "components/Common/Logo";
 
-import { Button } from "@mui/material";
+import { NavButton } from "../NavButton";
 import AvatarMenu from "./AvatarMenu";
 
 const AuthenticatedLayout = () => {
@@ -24,28 +24,20 @@ const AuthenticatedLayout = () => {
       >
         <Toolbar disableGutters>
           <Container
-            maxWidth="xl"
+            maxWidth="lg"
             sx={{
               height: "100%",
               display: "flex",
+              justifyContent: "space-between",
               alignItems: "center",
-              columnGap: "10px",
             }}
           >
-            <Logo height="80%" />
-            <Box sx={{ flex: 1 }} />
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Button component={Link} to="/" color="primary">
-                Home
-              </Button>
-              <Button component={Link} to="/shop" color="primary">
-                Shop
-              </Button>
-              <Button component={Link} to="/about" color="primary">
-                About
-              </Button>
-            </Box>
-            <Box>
+            <Logo height="70%" />
+
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <NavButton to="/" label="Home" />
+              <NavButton to="/shop" label="Shop" />
+              <NavButton to="/about" label="About" />
               <AvatarMenu />
             </Box>
           </Container>
@@ -53,13 +45,10 @@ const AuthenticatedLayout = () => {
       </AppBar>
 
       <Container
-        maxWidth="xl"
+        maxWidth="lg"
         component="main"
         sx={{
           height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
-          marginTop: "10px",
-          overflow: "auto",
-          scrollbarGutter: "stable",
         }}
       >
         <Outlet />

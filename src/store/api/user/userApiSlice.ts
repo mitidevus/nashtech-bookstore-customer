@@ -1,5 +1,6 @@
 import { setIsLoggedIn, setUserInfo } from "store/slice/userSlice";
 import { LoginDto, LoginResponse, SignUpDto, SignupResponse } from "types/auth";
+import { User } from "types/user";
 import auth from "utils/auth";
 import { apiSlice, apiWithToastSlice } from "../baseApiSlice";
 
@@ -26,6 +27,16 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
         body,
       }),
     }),
+    getProfile: build.query<User, void>({
+      query: () => "auth/me",
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+
+        console.log("data", data);
+
+        dispatch(setUserInfo(data));
+      },
+    }),
   }),
 });
 
@@ -41,6 +52,11 @@ const userApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useSignupMutation } = userApiToastSlice;
+export const {
+  useLoginMutation,
+  useSignupMutation,
+  useGetProfileQuery,
+  useLazyGetProfileQuery,
+} = userApiToastSlice;
 
 export const { useLogoutMutation } = userApiSlice;
