@@ -6,11 +6,11 @@ import {
 import { useAppSelector } from "store";
 
 import { Box } from "@mui/material";
+import BookList from "components/Common/BookList";
 import CenterLoading from "components/Common/CenterLoading";
 import AuthenticatedLayout from "components/Common/Layout/AuthenticatedLayout";
 import ShopLayout from "components/Common/Layout/ShopLayout";
 import UnauthenticatedLayout from "components/Common/Layout/UnauthenticatedLayout";
-import ProductList from "components/Common/ProductList";
 import Login from "components/Unauthenticated/Login";
 import Signup from "components/Unauthenticated/Signup";
 import { useEffect, useState } from "react";
@@ -29,7 +29,7 @@ const sharedRoutes = [
     children: [
       {
         index: true,
-        element: <ProductList />,
+        element: <BookList />,
       },
       {
         path: "author/:slug",

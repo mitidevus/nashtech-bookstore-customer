@@ -58,35 +58,49 @@ function SearchableAccordion({
           ...ScrollbarStyle,
         }}
       >
-        <TextField
-          fullWidth
-          size="small"
-          label="Search"
-          variant="outlined"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{ my: 2 }}
-        />
+        {items && items.length > 0 ? (
+          <>
+            <TextField
+              fullWidth
+              size="small"
+              label="Search"
+              variant="outlined"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              sx={{ my: 2 }}
+            />
 
-        <Grid container direction="column">
-          {filteredItems.map((item) => (
-            <Typography
-              key={item.slug}
-              component={Link}
-              to={`${linkPrefix}/${item.slug}`}
-              variant="subtitle2"
-              sx={{
-                py: 1,
-                color: "text.secondary",
-                "&:hover": {
-                  color: "primary.main",
-                },
-              }}
-            >
-              {item.name}
-            </Typography>
-          ))}
-        </Grid>
+            <Grid container direction="column">
+              {filteredItems.map((item) => (
+                <Typography
+                  key={item.slug}
+                  component={Link}
+                  to={`${linkPrefix}/${item.slug}`}
+                  variant="subtitle2"
+                  sx={{
+                    py: 1,
+                    color: "text.secondary",
+                    "&:hover": {
+                      color: "primary.main",
+                    },
+                  }}
+                >
+                  {item.name}
+                </Typography>
+              ))}
+            </Grid>
+          </>
+        ) : (
+          <Typography
+            variant="subtitle2"
+            sx={{
+              textAlign: "center",
+              color: "text.secondary",
+            }}
+          >
+            No {title.toLowerCase()}
+          </Typography>
+        )}
       </AccordionDetails>
     </Accordion>
   );
@@ -102,14 +116,8 @@ export default function ShopLayout() {
   }
 
   return (
-    <Grid container mt={4}>
-      <Grid
-        item
-        xs={2}
-        sx={{
-          paddingRight: 2,
-        }}
-      >
+    <Grid container mt={4} spacing={2}>
+      <Grid item xs={12} md={3}>
         <SearchableAccordion
           title="Author"
           items={authors as Author[]}
@@ -163,7 +171,7 @@ export default function ShopLayout() {
           </AccordionDetails>
         </Accordion>
       </Grid>
-      <Grid item xs={10}>
+      <Grid item xs={12} md={9}>
         <Outlet />
       </Grid>
     </Grid>
