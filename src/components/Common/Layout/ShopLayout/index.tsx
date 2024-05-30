@@ -116,8 +116,8 @@ export default function ShopLayout() {
   }
 
   return (
-    <Grid container mt={4} spacing={2}>
-      <Grid item xs={12} md={3}>
+    <Grid container mt={0} spacing={2}>
+      <Grid item xs={12} md={2.5}>
         <SearchableAccordion
           title="Author"
           items={authors as Author[]}
@@ -171,7 +171,7 @@ export default function ShopLayout() {
           </AccordionDetails>
         </Accordion>
       </Grid>
-      <Grid item xs={12} md={9}>
+      <Grid item xs={12} md={9.5}>
         <Outlet />
       </Grid>
     </Grid>

@@ -14,7 +14,11 @@ const AuthenticatedLayout = () => {
   const theme = useTheme();
 
   return (
-    <Box>
+    <Box
+      sx={{
+        backgroundColor: "#f5f5fa",
+      }}
+    >
       <AppBar
         position="static"
         sx={{
