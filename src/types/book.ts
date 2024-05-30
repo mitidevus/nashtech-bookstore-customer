@@ -9,7 +9,7 @@ export type Book = {
   description: string;
   image: string;
   price: number;
-  discountPrice: number;
+  finalPrice: number;
   discountDate: string | null;
   avgStars: number;
   totalReviews: number;
