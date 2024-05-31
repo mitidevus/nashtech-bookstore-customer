@@ -1,3 +1,5 @@
+import { Box } from "@mui/material";
+import { useEffect, useState } from "react";
 import {
   Navigate,
   RouterProvider,
@@ -5,20 +7,20 @@ import {
 } from "react-router-dom";
 import { useAppSelector } from "store";
 
-import { Box } from "@mui/material";
 import CenterLoading from "components/Common/CenterLoading";
 import AuthenticatedLayout from "components/Common/Layout/AuthenticatedLayout";
 import ShopLayout from "components/Common/Layout/ShopLayout";
 import UnauthenticatedLayout from "components/Common/Layout/UnauthenticatedLayout";
 import AllBooks from "components/Unauthenticated/AllBooks";
+import BookDetail from "components/Unauthenticated/BookDetail";
 import BooksByAuthor from "components/Unauthenticated/BooksByAuthor";
 import BooksByCategory from "components/Unauthenticated/BooksByCategory";
 import Login from "components/Unauthenticated/Login";
 import Signup from "components/Unauthenticated/Signup";
-import { useEffect, useState } from "react";
+
 import { useLazyGetProfileQuery } from "store/api/user/userApiSlice";
+import { selectIsLoggedIn } from "store/slice/userSlice";
 import "./App.css";
-import { selectIsLoggedIn } from "./store/slice/userSlice";
 
 const sharedRoutes = [
   {
@@ -42,6 +44,10 @@ const sharedRoutes = [
         element: <BooksByCategory />,
       },
     ],
+  },
+  {
+    path: "books/:slug",
+    element: <BookDetail />,
   },
   {
     path: "about",

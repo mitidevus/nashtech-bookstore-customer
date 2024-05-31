@@ -7,6 +7,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import * as EmailValidator from "email-validator";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -15,6 +16,8 @@ import { useLoginMutation } from "store/api/user/userApiSlice";
 import { LoginDto } from "types/auth";
 
 export default function Login() {
+  const theme = useTheme();
+
   const [requestLogin, { isLoading }] = useLoginMutation();
 
   const {
@@ -32,7 +35,7 @@ export default function Login() {
       sx={{
         position: "relative",
         width: "100%",
-        height: "100%",
+        minHeight: `calc(100dvh - ${theme.layout.headerHeight})`,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

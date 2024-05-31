@@ -28,9 +28,11 @@ function SearchableAccordion({
 }) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredItems = items.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredItems = items
+    ? items.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
 
   return (
     <Accordion>

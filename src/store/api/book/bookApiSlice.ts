@@ -1,6 +1,7 @@
-import { SortBy } from "constants/sort";
+import { Order, SortBy } from "constants/sort";
 import { GetListResult } from "types/app";
 import { Book } from "types/book";
+import { RatingCount, RatingReview } from "types/rating-review";
 import { apiSlice } from "../baseApiSlice";
 
 const bookApiSlice = apiSlice.injectEndpoints({
@@ -22,7 +23,52 @@ const bookApiSlice = apiSlice.injectEndpoints({
         },
       }),
     }),
+    getBookDetail: build.query<Book, string>({
+      query: (slug) => `books/slug/${slug}`,
+    }),
+    getRatingReviews: build.query<
+      GetListResult<RatingReview> & { ratingCount: RatingCount },
+      {
+        slug: string;
+        page: number;
+        take: number;
+        order: Order;
+        star?: number;
+      }
+    >({
+      query: ({ slug, page, take, order, star }) => ({
+        url: `books/${slug}/rating-reviews`,
+        params: {
+          page,
+          take,
+          order,
+          star,
+        },
+      }),
+    }),
+    addRatingReview: build.mutation<
+      RatingReview,
+      { slug: string; star: number; title: string; content: string }
+    >({
+      query: ({ slug, star, title, content }) => ({
+        url: `books/${slug}/rating-reviews`,
+        method: "POST",
+        body: {
+          star,
+          title,
+          content,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetBooksQuery, useLazyGetBooksQuery } = bookApiSlice;
+export const {
+  useGetBooksQuery,
+  useLazyGetBooksQuery,
+  useGetBookDetailQuery,
+  useLazyGetBookDetailQuery,
+  useGetRatingReviewsQuery,
+  useLazyGetRatingReviewsQuery,
+  useAddRatingReviewMutation,
+} = bookApiSlice;
