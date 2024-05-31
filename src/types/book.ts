@@ -11,6 +11,7 @@ export type Book = {
   price: number;
   finalPrice: number;
   discountDate: string | null;
+  discountPercentage: number;
   avgStars: number;
   totalReviews: number;
   soldQuantity: number;

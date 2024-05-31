@@ -5,3 +5,8 @@ export enum SortBy {
   DESC_PRICE = "price_desc",
   NONE = "none",
 }
+
+export enum Order {
+  ASC = "asc",
+  DESC = "desc",
+}

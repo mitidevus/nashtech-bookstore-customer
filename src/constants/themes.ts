@@ -25,7 +25,10 @@ const defaultTheme = createTheme({
   },
   palette: {
     primary: {
-      main: "#7F56D9",
+      main: "#4284FD",
+    },
+    error: {
+      main: "#F04438",
     },
   },
   layout: {

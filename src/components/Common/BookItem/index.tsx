@@ -1,8 +1,10 @@
 import { Box, Button, Rating, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { Book } from "types/book";
 import { formatCurrency } from "utils/currency";
 
 export default function BookItem({ book }: { book: Book }) {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -17,10 +19,18 @@ export default function BookItem({ book }: { book: Book }) {
         position: "relative",
       }}
     >
-      <img
+      <Box
+        component="img"
         src={book.image}
         alt={book.name}
-        style={{ width: "100%", height: "auto" }}
+        sx={{
+          width: "100%",
+          height: "auto",
+          objectFit: "cover",
+          objectPosition: "center",
+          cursor: "pointer",
+        }}
+        onClick={() => navigate(`/books/${book.slug}`)}
       />
 
       {book.promotionList && (
@@ -56,7 +66,9 @@ export default function BookItem({ book }: { book: Book }) {
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
             minHeight: 50,
+            cursor: "pointer",
           }}
+          onClick={() => navigate(`/books/${book.slug}`)}
         >
           {book.name}
         </Typography>
