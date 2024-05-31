@@ -1,24 +1,17 @@
 import {
-  Avatar,
   Box,
   Button,
   Chip,
   Divider,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Pagination,
   Paper,
   Rating,
-  Select,
   Stack,
   Typography,
 } from "@mui/material";
 import CenterLoading from "components/Common/CenterLoading";
 import NoData from "components/Common/NoData";
 import QuantityInput from "components/Common/QuantityInput";
-import { DateFormat } from "constants/date";
 import { Order } from "constants/sort";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,7 +21,7 @@ import {
 } from "store/api/book/bookApiSlice";
 import { RatingCount, RatingReview } from "types/rating-review";
 import { formatCurrency } from "utils/currency";
-import { formatDate } from "utils/date";
+import RatingReviews from "./RatingReviews";
 
 const ChipList = ({
   title,
@@ -146,15 +139,6 @@ export default function BookDetail() {
     })();
   }, [getBookDetail, getRatingReview, navigate, order, page, slug, star, take]);
 
-  const starRatings = [
-    { label: "All", count: book?.totalReviews, value: undefined },
-    { label: "5 stars", count: reviewData.ratingCount.fiveStar, value: 5 },
-    { label: "4 stars", count: reviewData.ratingCount.fourStar, value: 4 },
-    { label: "3 stars", count: reviewData.ratingCount.threeStar, value: 3 },
-    { label: "2 stars", count: reviewData.ratingCount.twoStar, value: 2 },
-    { label: "1 star", count: reviewData.ratingCount.oneStar, value: 1 },
-  ];
-
   if (isLoading || isLoadingReview) {
     return <CenterLoading />;
   }
@@ -162,7 +146,7 @@ export default function BookDetail() {
   return (
     <Box>
       <Grid container mt={0} spacing={2}>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} md={4}>
           <Paper
             elevation={1}
             sx={{
@@ -201,7 +185,7 @@ export default function BookDetail() {
         <Grid
           item
           xs={12}
-          sm={8}
+          md={8}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -364,197 +348,24 @@ export default function BookDetail() {
             </Typography>
             <Typography variant="body1">{book?.description}</Typography>
           </Paper>
+
+          <RatingReviews
+            avgStars={book?.avgStars || 0}
+            totalReviews={book?.totalReviews || 0}
+            ratingCount={reviewData.ratingCount}
+            reviews={reviewData.data}
+            totalPages={reviewData.totalPages}
+            page={page}
+            setPage={setPage}
+            take={take}
+            setTake={setTake}
+            order={order}
+            setOrder={setOrder}
+            star={star || 0}
+            setStar={setStar}
+          />
         </Grid>
       </Grid>
-      <Paper elevation={1} sx={{ p: 2, borderRadius: 2, mt: 2 }}>
-        <Typography variant="h6" gutterBottom mb={2}>
-          Rating & Reviews
-        </Typography>
-
-        <Stack direction="row" alignItems="center" spacing={2} mb={2}>
-          <Typography variant="h4" fontWeight={600}>
-            {book?.avgStars.toFixed(1)}
-          </Typography>
-
-          <Rating
-            name="avgStars"
-            value={book?.avgStars}
-            size="large"
-            readOnly
-          />
-        </Stack>
-
-        <Grid
-          container
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 4,
-          }}
-          rowSpacing={4}
-        >
-          <Grid item xs={12} lg={6}>
-            <Stack direction="row" gap={1}>
-              {starRatings.map((rating) => (
-                <Chip
-                  key={rating.value ?? "all"}
-                  label={`${rating.label} (${rating.count})`}
-                  color={star === rating.value ? "primary" : "default"}
-                  onClick={() => setStar(rating.value)}
-                />
-              ))}
-            </Stack>
-          </Grid>
-
-          <Grid item xs={12} lg={6}>
-            <Stack
-              direction="row"
-              justifyContent={{
-                xs: "flex-start",
-                lg: "flex-end",
-              }}
-              gap={2}
-            >
-              <FormControl sx={{ minWidth: 180 }}>
-                <InputLabel id="sort-by">Sort by</InputLabel>
-                <Select
-                  labelId="sort-by"
-                  id="sort-by"
-                  value={order}
-                  onChange={(e) => setOrder(e.target.value as Order)}
-                  label="Sort by"
-                  size="small"
-                >
-                  <MenuItem value={Order.DESC}>
-                    Sort by date: Newest to oldest
-                  </MenuItem>
-                  <MenuItem value={Order.ASC}>
-                    Sort by date: Oldest to newest
-                  </MenuItem>
-                </Select>
-              </FormControl>
-
-              <FormControl sx={{ minWidth: 120 }}>
-                <InputLabel id="take-items">Show</InputLabel>
-                <Select
-                  labelId="take-items"
-                  id="take-items"
-                  value={take}
-                  onChange={(e) => setTake(e.target.value as number)}
-                  label="Show"
-                  size="small"
-                >
-                  <MenuItem value={3}>3 items</MenuItem>
-                  <MenuItem value={5}>5 items</MenuItem>
-                  <MenuItem value={7}>7 items</MenuItem>
-                  <MenuItem value={10}>10 items</MenuItem>
-                </Select>
-              </FormControl>
-            </Stack>
-          </Grid>
-        </Grid>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 2,
-          }}
-        >
-          {reviewData && reviewData.data.length > 0 ? (
-            reviewData.data.map((review) => (
-              <Paper
-                key={review.id}
-                elevation={1}
-                sx={{
-                  p: 2,
-                  borderRadius: 2,
-                  width: "100%",
-                }}
-              >
-                <Grid
-                  container
-                  rowSpacing={{
-                    xs: 2,
-                    md: 0,
-                  }}
-                >
-                  <Grid
-                    item
-                    xs={12}
-                    md={3}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 2,
-                    }}
-                  >
-                    <Avatar
-                      src={review.user.image}
-                      sx={{
-                        width: 50,
-                        height: 50,
-                      }}
-                    />
-                    <Box>
-                      <Typography variant="subtitle2">
-                        {review.user.name}
-                      </Typography>
-                      <Typography variant="caption">
-                        {formatDate({
-                          date: review.createdAt,
-                          targetFormat: DateFormat.DATE,
-                        })}
-                      </Typography>
-                    </Box>
-                  </Grid>
-
-                  <Grid item xs={12} md={9}>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                      <Rating
-                        name="rating"
-                        value={review.star}
-                        size="medium"
-                        readOnly
-                      />
-
-                      <Typography
-                        variant="subtitle1"
-                        sx={{
-                          fontWeight: 500,
-                        }}
-                      >
-                        {review.title}
-                      </Typography>
-                    </Stack>
-
-                    <Typography variant="body2" mt={1}>
-                      {review.content}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Paper>
-            ))
-          ) : (
-            <Box sx={{ width: "100%", p: 2 }}>
-              <NoData message="No reviews available" />
-            </Box>
-          )}
-
-          <Pagination
-            count={reviewData.totalPages || 1}
-            page={page}
-            onChange={(_, value) => setPage(value)}
-            color="primary"
-            sx={{
-              mt: 2,
-            }}
-          />
-        </Box>
-      </Paper>
     </Box>
   );
 }
