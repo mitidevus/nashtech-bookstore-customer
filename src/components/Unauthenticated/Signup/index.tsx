@@ -7,6 +7,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import * as EmailValidator from "email-validator";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -21,6 +22,7 @@ type FormType = SignUpDto & {
 
 export default function Signup() {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const [requestSignup, { isLoading: isSubmitting }] = useSignupMutation();
 
@@ -49,7 +51,7 @@ export default function Signup() {
       sx={{
         position: "relative",
         width: "100%",
-        height: "100%",
+        minHeight: `calc(100dvh - ${theme.layout.headerHeight})`,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
