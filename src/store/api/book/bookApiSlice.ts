@@ -46,6 +46,20 @@ const bookApiSlice = apiSlice.injectEndpoints({
         },
       }),
     }),
+    addRatingReview: build.mutation<
+      RatingReview,
+      { slug: string; star: number; title: string; content: string }
+    >({
+      query: ({ slug, star, title, content }) => ({
+        url: `books/${slug}/rating-reviews`,
+        method: "POST",
+        body: {
+          star,
+          title,
+          content,
+        },
+      }),
+    }),
   }),
 });
 
@@ -56,4 +70,5 @@ export const {
   useLazyGetBookDetailQuery,
   useGetRatingReviewsQuery,
   useLazyGetRatingReviewsQuery,
+  useAddRatingReviewMutation,
 } = bookApiSlice;

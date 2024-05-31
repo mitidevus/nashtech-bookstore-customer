@@ -52,7 +52,8 @@ const AuthenticatedLayout = () => {
         maxWidth="lg"
         component="main"
         sx={{
-          height: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
+          minHeight: `calc(100dvh - 10px - ${theme.layout.headerHeight})`,
+          height: "auto",
         }}
       >
         <Outlet />

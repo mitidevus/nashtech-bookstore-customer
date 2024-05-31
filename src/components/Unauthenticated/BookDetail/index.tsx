@@ -85,7 +85,8 @@ export default function BookDetail() {
   const [page, setPage] = useState(1);
   const [take, setTake] = useState(5);
   const [order, setOrder] = useState<Order>(Order.DESC);
-  const [star, setStar] = useState<number | undefined>(undefined);
+  const [star, setStar] = useState<number>(0);
+  const [refreshReviews, setRefreshReviews] = useState(false);
 
   const [reviewData, setReviewData] = useState<{
     data: RatingReview[];
@@ -121,7 +122,7 @@ export default function BookDetail() {
               page,
               take,
               order,
-              star,
+              ...(star && { star }),
             }).unwrap();
 
           setReviewData({
@@ -137,7 +138,17 @@ export default function BookDetail() {
         navigate("/shop");
       }
     })();
-  }, [getBookDetail, getRatingReview, navigate, order, page, slug, star, take]);
+  }, [
+    getBookDetail,
+    getRatingReview,
+    navigate,
+    order,
+    page,
+    slug,
+    star,
+    take,
+    refreshReviews,
+  ]);
 
   if (isLoading || isLoadingReview) {
     return <CenterLoading />;
@@ -172,13 +183,13 @@ export default function BookDetail() {
           <ChipList
             title="Authors"
             items={book?.authors || []}
-            onClick={(author) => navigate(`/authors/${author.id}`)}
+            onClick={(author) => navigate(`/shop/author/${author.slug}`)}
           />
 
           <ChipList
             title="Categories"
             items={book?.categories || []}
-            onClick={(category) => navigate(`/categories/${category.id}`)}
+            onClick={(category) => navigate(`/shop/category/${category.slug}`)}
           />
         </Grid>
 
@@ -212,43 +223,45 @@ export default function BookDetail() {
 
               <Stack direction="row" spacing={1}>
                 {book?.avgStars !== 0 && (
-                  <Stack direction="row" spacing={1}>
-                    <Typography
-                      variant="subtitle2"
-                      sx={{
-                        color: "text.primary",
-                      }}
-                    >
-                      {book?.avgStars.toFixed(1)}
-                    </Typography>
+                  <>
+                    <Stack direction="row" spacing={1}>
+                      <Typography
+                        variant="subtitle2"
+                        sx={{
+                          color: "text.primary",
+                        }}
+                      >
+                        {book?.avgStars.toFixed(1)}
+                      </Typography>
 
-                    <Rating
-                      name="avgStars"
-                      value={book?.avgStars}
-                      size="small"
-                      readOnly
-                    />
+                      <Rating
+                        name="avgStars"
+                        value={book?.avgStars}
+                        size="small"
+                        readOnly
+                      />
+
+                      <Typography
+                        variant="subtitle2"
+                        sx={{
+                          color: "text.secondary",
+                        }}
+                      >
+                        ({book?.totalReviews})
+                      </Typography>
+                    </Stack>
 
                     <Typography
                       variant="subtitle2"
                       sx={{
                         color: "text.secondary",
+                        fontWeight: 400,
                       }}
                     >
-                      ({book?.totalReviews})
+                      |
                     </Typography>
-                  </Stack>
+                  </>
                 )}
-
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    color: "text.secondary",
-                    fontWeight: 400,
-                  }}
-                >
-                  |
-                </Typography>
 
                 <Typography
                   variant="subtitle2"
@@ -350,6 +363,7 @@ export default function BookDetail() {
           </Paper>
 
           <RatingReviews
+            slug={slug || ""}
             avgStars={book?.avgStars || 0}
             totalReviews={book?.totalReviews || 0}
             ratingCount={reviewData.ratingCount}
@@ -363,6 +377,7 @@ export default function BookDetail() {
             setOrder={setOrder}
             star={star || 0}
             setStar={setStar}
+            onReviewSubmit={() => setRefreshReviews(!refreshReviews)}
           />
         </Grid>
       </Grid>
