@@ -1,5 +1,7 @@
 import BookList from "components/Common/BookList";
+import { Breadcrumbs } from "components/Common/Breadcrumbs";
 import CenterLoading from "components/Common/CenterLoading";
+import ShopLayout from "components/Common/Layout/ShopLayout";
 import { SortBy } from "constants/sort";
 import { useEffect, useState } from "react";
 import { useLazyGetBooksQuery } from "store/api/book/bookApiSlice";
@@ -39,15 +41,21 @@ export default function AllBooks() {
   }
 
   return (
-    <BookList
-      title="Books"
-      {...data}
-      page={page}
-      setPage={setPage}
-      take={take}
-      setTake={setTake}
-      sortBy={sortBy}
-      setSortBy={setSortBy}
-    />
+    <>
+      <Breadcrumbs />
+
+      <ShopLayout>
+        <BookList
+          title="Books"
+          {...data}
+          page={page}
+          setPage={setPage}
+          take={take}
+          setTake={setTake}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
+      </ShopLayout>
+    </>
   );
 }

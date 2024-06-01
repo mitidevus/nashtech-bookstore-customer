@@ -1,5 +1,7 @@
 import BookList from "components/Common/BookList";
+import { Breadcrumbs } from "components/Common/Breadcrumbs";
 import CenterLoading from "components/Common/CenterLoading";
+import ShopLayout from "components/Common/Layout/ShopLayout";
 import { SortBy } from "constants/sort";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -55,19 +57,32 @@ export default function BooksByCategory() {
     })();
   }, [getBooks, navigate, page, slug, sortBy, take]);
 
+  const customRoutes = [
+    {
+      path: `/shop/category/${slug}`,
+      breadcrumb: data.title,
+    },
+  ];
+
   if (isLoading) {
     return <CenterLoading />;
   }
 
   return (
-    <BookList
-      {...data}
-      page={page}
-      setPage={setPage}
-      take={take}
-      setTake={setTake}
-      sortBy={sortBy}
-      setSortBy={setSortBy}
-    />
+    <>
+      <Breadcrumbs customRoutes={customRoutes} />
+
+      <ShopLayout>
+        <BookList
+          {...data}
+          page={page}
+          setPage={setPage}
+          take={take}
+          setTake={setTake}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
+      </ShopLayout>
+    </>
   );
 }

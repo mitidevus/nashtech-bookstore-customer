@@ -9,6 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { Breadcrumbs } from "components/Common/Breadcrumbs";
 import CenterLoading from "components/Common/CenterLoading";
 import NoData from "components/Common/NoData";
 import QuantityInput from "components/Common/QuantityInput";
@@ -150,13 +151,26 @@ export default function BookDetail() {
     refreshReviews,
   ]);
 
+  const customRoutes = [
+    {
+      path: `/shop/book`,
+      breadcrumb: null,
+    },
+    {
+      path: `/shop/book/${slug}`,
+      breadcrumb: book?.name,
+    },
+  ];
+
   if (isLoading || isLoadingReview) {
     return <CenterLoading />;
   }
 
   return (
-    <Box>
-      <Grid container mt={0} spacing={2}>
+    <>
+      <Breadcrumbs customRoutes={customRoutes} />
+
+      <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
           <Paper
             elevation={1}
@@ -238,6 +252,7 @@ export default function BookDetail() {
                         name="avgStars"
                         value={book?.avgStars}
                         size="small"
+                        precision={0.5}
                         readOnly
                       />
 
@@ -381,6 +396,6 @@ export default function BookDetail() {
           />
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 }

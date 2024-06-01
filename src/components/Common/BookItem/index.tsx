@@ -30,7 +30,7 @@ export default function BookItem({ book }: { book: Book }) {
           objectPosition: "center",
           cursor: "pointer",
         }}
-        onClick={() => navigate(`/books/${book.slug}`)}
+        onClick={() => navigate(`/shop/book/${book.slug}`)}
       />
 
       {book.promotionList && (
@@ -68,7 +68,7 @@ export default function BookItem({ book }: { book: Book }) {
             minHeight: 50,
             cursor: "pointer",
           }}
-          onClick={() => navigate(`/books/${book.slug}`)}
+          onClick={() => navigate(`/shop/book/${book.slug}`)}
         >
           {book.name}
         </Typography>
@@ -113,7 +113,13 @@ export default function BookItem({ book }: { book: Book }) {
             // gap: 1,
           }}
         >
-          <Rating name="avgStars" value={book.avgStars} size="small" readOnly />
+          <Rating
+            name="avgStars"
+            value={book.avgStars}
+            size="small"
+            precision={0.5}
+            readOnly
+          />
 
           <Typography
             variant="subtitle2"

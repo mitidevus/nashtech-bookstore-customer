@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import CenterLoading from "components/Common/CenterLoading";
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useGetAuthorsQuery } from "store/api/author/authorApiSlice";
 import { useGetCategoriesQuery } from "store/api/category/categoryApiSlice";
 import { Author } from "types/author";
@@ -108,7 +108,11 @@ function SearchableAccordion({
   );
 }
 
-export default function ShopLayout() {
+export default function ShopLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { data: authors, isLoading: fetchingAuthor } = useGetAuthorsQuery();
   const { data: categories, isLoading: fetchingCategory } =
     useGetCategoriesQuery();
@@ -118,7 +122,7 @@ export default function ShopLayout() {
   }
 
   return (
-    <Grid container mt={0} spacing={2}>
+    <Grid container spacing={2}>
       <Grid item xs={12} md={2.5}>
         <SearchableAccordion
           title="Author"
@@ -174,7 +178,7 @@ export default function ShopLayout() {
         </Accordion>
       </Grid>
       <Grid item xs={12} md={9.5}>
-        <Outlet />
+        {children}
       </Grid>
     </Grid>
   );
