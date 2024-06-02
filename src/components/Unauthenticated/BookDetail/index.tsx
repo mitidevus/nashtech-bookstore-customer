@@ -20,6 +20,7 @@ import {
   useLazyGetBookDetailQuery,
   useLazyGetRatingReviewsQuery,
 } from "store/api/book/bookApiSlice";
+import { useAddToCartMutation } from "store/api/cart/cartApiSlice";
 import { RatingCount, RatingReview } from "types/rating-review";
 import { formatCurrency } from "utils/currency";
 import RatingReviews from "./RatingReviews";
@@ -111,6 +112,7 @@ export default function BookDetail() {
     useLazyGetBookDetailQuery();
   const [getRatingReview, { isLoading: isLoadingReview }] =
     useLazyGetRatingReviewsQuery();
+  const [addToCart, { isLoading: isAddingToCart }] = useAddToCartMutation();
 
   useEffect(() => {
     (async () => {
@@ -161,6 +163,16 @@ export default function BookDetail() {
       breadcrumb: book?.name,
     },
   ];
+
+  const handleAddToCart = async () => {
+    try {
+      if (book?.id) {
+        await addToCart({ bookId: book.id, quantity }).unwrap();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (isLoading || isLoadingReview) {
     return <CenterLoading />;
@@ -353,7 +365,8 @@ export default function BookDetail() {
                   variant="outlined"
                   fullWidth
                   color="primary"
-                  onClick={() => navigate(`/cart`)}
+                  disabled={isAddingToCart}
+                  onClick={handleAddToCart}
                 >
                   Add to cart
                 </Button>
