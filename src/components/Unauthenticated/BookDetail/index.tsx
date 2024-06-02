@@ -309,12 +309,7 @@ export default function BookDetail() {
                     fontWeight: "bold",
                   }}
                 >
-                  {book &&
-                    formatCurrency(
-                      book?.promotionList
-                        ? book.finalPrice * 1000
-                        : book.price * 1000
-                    )}
+                  {book && formatCurrency(book.finalPrice * 1000)}
                 </Typography>
 
                 {book?.promotionList && (

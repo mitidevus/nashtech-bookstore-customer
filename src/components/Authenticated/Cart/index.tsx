@@ -159,10 +159,29 @@ export default function Cart() {
                       <TableCell
                         sx={{
                           width: "15%",
-                          fontWeight: 600,
                         }}
                       >
-                        {formatCurrency(item.book.finalPrice * 1000)}
+                        <Typography
+                          variant="subtitle2"
+                          sx={{
+                            fontWeight: 600,
+                          }}
+                        >
+                          {formatCurrency(item.book.finalPrice * 1000)}
+                        </Typography>
+
+                        {item.book.promotionList && (
+                          <Typography
+                            variant="subtitle2"
+                            sx={{
+                              color: "#D0D5DD",
+                              textDecoration: "line-through",
+                              fontWeight: "normal",
+                            }}
+                          >
+                            {formatCurrency(item.book.price * 1000)}
+                          </Typography>
+                        )}
                       </TableCell>
                       <TableCell
                         sx={{

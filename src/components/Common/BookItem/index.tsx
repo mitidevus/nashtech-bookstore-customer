@@ -99,9 +99,7 @@ export default function BookItem({ book }: { book: Book }) {
               fontWeight: "bold",
             }}
           >
-            {formatCurrency(
-              book.promotionList ? book.finalPrice * 1000 : book.price * 1000
-            )}
+            {formatCurrency(book.finalPrice * 1000)}
           </Typography>
 
           {book.promotionList && (
