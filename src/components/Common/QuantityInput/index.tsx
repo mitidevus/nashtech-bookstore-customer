@@ -2,13 +2,15 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Box, IconButton, TextField } from "@mui/material";
 
-const QuantityInput = ({
+export default function QuantityInput({
   quantity,
   setQuantity,
+  width = "3rem",
 }: {
   quantity: number;
   setQuantity: (value: number) => void;
-}) => {
+  width?: string;
+}) {
   const handleIncrease = () => {
     setQuantity(quantity + 1);
   };
@@ -39,7 +41,7 @@ const QuantityInput = ({
         inputProps={{
           inputMode: "numeric",
           pattern: "[0-9]*",
-          style: { textAlign: "center", width: "3rem" },
+          style: { textAlign: "center", width },
         }}
       />
 
@@ -48,6 +50,4 @@ const QuantityInput = ({
       </IconButton>
     </Box>
   );
-};
-
-export default QuantityInput;
+}

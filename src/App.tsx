@@ -16,6 +16,7 @@ import BooksByCategory from "components/Unauthenticated/BooksByCategory";
 import Login from "components/Unauthenticated/Login";
 import Signup from "components/Unauthenticated/Signup";
 
+import Cart from "components/Authenticated/Cart";
 import BookDetail from "components/Unauthenticated/BookDetail";
 import Home from "components/Unauthenticated/Home";
 import { useLazyGetProfileQuery } from "store/api/user/userApiSlice";
@@ -88,7 +89,7 @@ const protectedRoutes = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <Box>Cart</Box>,
+        element: <Cart />,
       },
       {
         path: "profile",

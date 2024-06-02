@@ -1,10 +1,22 @@
 import { Box, Button, Rating, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useAddToCartMutation } from "store/api/cart/cartApiSlice";
 import { Book } from "types/book";
 import { formatCurrency } from "utils/currency";
 
 export default function BookItem({ book }: { book: Book }) {
   const navigate = useNavigate();
+
+  const [addToCart, { isLoading }] = useAddToCartMutation();
+
+  const handleAddToCart = async () => {
+    try {
+      await addToCart({ bookId: book.id, quantity: 1 }).unwrap();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -136,6 +148,8 @@ export default function BookItem({ book }: { book: Book }) {
           variant="contained"
           size="small"
           fullWidth
+          disabled={isLoading}
+          onClick={handleAddToCart}
           sx={{
             mt: 2,
           }}

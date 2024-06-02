@@ -32,8 +32,6 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
 
-        console.log("data", data);
-
         dispatch(setUserInfo(data));
       },
     }),
