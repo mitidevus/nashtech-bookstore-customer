@@ -3,9 +3,11 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {
   Box,
   Button,
+  Divider,
   Grid,
   IconButton,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -257,16 +259,79 @@ export default function Cart() {
             </Paper>
           </Grid>
           <Grid item xs={12} md={3.5}>
-            <Paper elevation={1} sx={{ p: 2 }}>
+            <Paper elevation={1}>
               <Typography
                 variant="h5"
                 sx={{
                   fontWeight: 500,
+                  px: 2,
+                  py: 2,
                 }}
               >
                 Order Summary
               </Typography>
+
+              <Divider />
+
+              <Stack direction="column" spacing={1} sx={{ p: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="body2">Subtotal</Typography>
+                  <Typography variant="body2">
+                    {formatCurrency(cart.totalPrice * 1000)}
+                  </Typography>
+                </Box>
+
+                {cart.discount > 0 && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mb: 1,
+                    }}
+                  >
+                    <Typography variant="body2">Discount</Typography>
+                    <Typography variant="body2">
+                      -{formatCurrency(cart.discount * 1000)}
+                    </Typography>
+                  </Box>
+                )}
+              </Stack>
+
+              <Divider />
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  p: 2,
+                }}
+              >
+                <Typography variant="body2" fontWeight={500}>
+                  Total Payment
+                </Typography>
+                <Typography variant="h6" color="error.main">
+                  {formatCurrency(cart.finalPrice * 1000)}
+                </Typography>
+              </Box>
             </Paper>
+
+            <Button
+              variant="contained"
+              color="error"
+              fullWidth
+              sx={{
+                mt: 2,
+              }}
+              onClick={() => navigate("/checkout")}
+            >
+              Proceed to Checkout
+            </Button>
           </Grid>
         </Grid>
       ) : (
