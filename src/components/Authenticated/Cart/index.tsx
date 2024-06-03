@@ -15,12 +15,13 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import EmptyCart from "assets/images/empty-cart.png";
 import { Breadcrumbs } from "components/Common/Breadcrumbs";
 import CenterLoading from "components/Common/CenterLoading";
 import QuantityInput from "components/Common/QuantityInput";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   useClearCartMutation,
   useLazyGetCartQuery,
@@ -37,6 +38,8 @@ export default function Cart() {
     items: [],
     totalQuantity: 0,
     totalPrice: 0,
+    finalPrice: 0,
+    discount: 0,
   });
 
   const [getCart, { isLoading }] = useLazyGetCartQuery();
@@ -328,7 +331,7 @@ export default function Cart() {
               sx={{
                 mt: 2,
               }}
-              onClick={() => navigate("/checkout")}
+              onClick={() => navigate("/cart/checkout")}
             >
               Proceed to Checkout
             </Button>
