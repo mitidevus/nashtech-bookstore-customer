@@ -1,3 +1,4 @@
+import { SpecialBook } from "constants/book";
 import { Order, SortBy } from "constants/sort";
 import { GetListResult } from "types/app";
 import { Book } from "types/book";
@@ -22,6 +23,24 @@ const bookApiSlice = apiSlice.injectEndpoints({
           sort,
         },
       }),
+    }),
+    getSpecialBooks: build.query<
+      Book[],
+      {
+        page: number;
+        take: number;
+        type: SpecialBook;
+      }
+    >({
+      query: ({ page, take, type }) => ({
+        url: `books/special`,
+        params: {
+          page,
+          take,
+          type,
+        },
+      }),
+      transformResponse: (response: { data: Book[] }) => response.data,
     }),
     getBookDetail: build.query<Book, string>({
       query: (slug) => `books/slug/${slug}`,
@@ -66,6 +85,8 @@ const bookApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetBooksQuery,
   useLazyGetBooksQuery,
+  useGetSpecialBooksQuery,
+  useLazyGetSpecialBooksQuery,
   useGetBookDetailQuery,
   useLazyGetBookDetailQuery,
   useGetRatingReviewsQuery,
