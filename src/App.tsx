@@ -17,6 +17,9 @@ import Login from "components/Unauthenticated/Login";
 import Signup from "components/Unauthenticated/Signup";
 
 import Cart from "components/Authenticated/Cart";
+import Checkout from "components/Authenticated/Checkout";
+import OrderDetail from "components/Authenticated/OrderDetail";
+import OrderList from "components/Authenticated/OrderList";
 import BookDetail from "components/Unauthenticated/BookDetail";
 import Home from "components/Unauthenticated/Home";
 import { useLazyGetProfileQuery } from "store/api/user/userApiSlice";
@@ -84,12 +87,30 @@ const protectedRoutes = createBrowserRouter([
     children: [
       ...sharedRoutes,
       {
-        path: "orders",
-        element: <Box>Orders</Box>,
+        path: "cart",
+        children: [
+          {
+            index: true,
+            element: <Cart />,
+          },
+          {
+            path: "checkout",
+            element: <Checkout />,
+          },
+        ],
       },
       {
-        path: "cart",
-        element: <Cart />,
+        path: "order",
+        children: [
+          {
+            index: true,
+            element: <OrderList />,
+          },
+          {
+            path: ":id",
+            element: <OrderDetail />,
+          },
+        ],
       },
       {
         path: "profile",

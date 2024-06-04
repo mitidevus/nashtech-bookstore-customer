@@ -12,6 +12,7 @@ import {
 import * as EmailValidator from "email-validator";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useLazyGetCartQuery } from "store/api/cart/cartApiSlice";
 import { useLoginMutation } from "store/api/user/userApiSlice";
 import { LoginDto } from "types/auth";
 
@@ -19,6 +20,7 @@ export default function Login() {
   const theme = useTheme();
 
   const [requestLogin, { isLoading }] = useLoginMutation();
+  const [getCart] = useLazyGetCartQuery();
 
   const {
     register,
@@ -27,7 +29,13 @@ export default function Login() {
   } = useForm<LoginDto>();
 
   const onSubmit: SubmitHandler<LoginDto> = async (data) => {
-    requestLogin(data).unwrap();
+    try {
+      await requestLogin(data).unwrap();
+
+      await getCart();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

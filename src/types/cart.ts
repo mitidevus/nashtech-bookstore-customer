@@ -14,4 +14,13 @@ export type Cart = {
   items: CartItem[];
   totalQuantity: number;
   totalPrice: number;
+  finalPrice: number;
+  discount: number;
+};
+
+export type CheckoutDto = {
+  fullName: string;
+  phone: string;
+  shippingAddress: string;
+  paymentMethod: string;
 };

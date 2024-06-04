@@ -3,9 +3,11 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {
   Box,
   Button,
+  Divider,
   Grid,
   IconButton,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -13,12 +15,13 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import EmptyCart from "assets/images/empty-cart.png";
 import { Breadcrumbs } from "components/Common/Breadcrumbs";
 import CenterLoading from "components/Common/CenterLoading";
 import QuantityInput from "components/Common/QuantityInput";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   useClearCartMutation,
   useLazyGetCartQuery,
@@ -35,6 +38,8 @@ export default function Cart() {
     items: [],
     totalQuantity: 0,
     totalPrice: 0,
+    finalPrice: 0,
+    discount: 0,
   });
 
   const [getCart, { isLoading }] = useLazyGetCartQuery();
@@ -89,12 +94,12 @@ export default function Cart() {
   }
 
   return (
-    <>
+    <Box minWidth={670}>
       <Breadcrumbs />
 
       {cart && cart.items.length > 0 ? (
         <Grid container spacing={2}>
-          <Grid item xs={12} md={8.5}>
+          <Grid item xs={12} lg={8.5}>
             <Paper elevation={1} sx={{ py: 2 }}>
               <Typography
                 variant="h5"
@@ -159,10 +164,29 @@ export default function Cart() {
                       <TableCell
                         sx={{
                           width: "15%",
-                          fontWeight: 600,
                         }}
                       >
-                        {formatCurrency(item.book.finalPrice * 1000)}
+                        <Typography
+                          variant="subtitle2"
+                          sx={{
+                            fontWeight: 600,
+                          }}
+                        >
+                          {formatCurrency(item.book.finalPrice * 1000)}
+                        </Typography>
+
+                        {item.book.promotionList && (
+                          <Typography
+                            variant="subtitle2"
+                            sx={{
+                              color: "#D0D5DD",
+                              textDecoration: "line-through",
+                              fontWeight: "normal",
+                            }}
+                          >
+                            {formatCurrency(item.book.price * 1000)}
+                          </Typography>
+                        )}
                       </TableCell>
                       <TableCell
                         sx={{
@@ -237,17 +261,80 @@ export default function Cart() {
               </Box>
             </Paper>
           </Grid>
-          <Grid item xs={12} md={3.5}>
-            <Paper elevation={1} sx={{ p: 2 }}>
+          <Grid item xs={12} lg={3.5}>
+            <Paper elevation={1}>
               <Typography
                 variant="h5"
                 sx={{
                   fontWeight: 500,
+                  px: 2,
+                  py: 2,
                 }}
               >
                 Order Summary
               </Typography>
+
+              <Divider />
+
+              <Stack direction="column" spacing={1} sx={{ p: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="body2">Subtotal</Typography>
+                  <Typography variant="body2">
+                    {formatCurrency(cart.totalPrice * 1000)}
+                  </Typography>
+                </Box>
+
+                {cart.discount > 0 && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mb: 1,
+                    }}
+                  >
+                    <Typography variant="body2">Discount</Typography>
+                    <Typography variant="body2">
+                      -{formatCurrency(cart.discount * 1000)}
+                    </Typography>
+                  </Box>
+                )}
+              </Stack>
+
+              <Divider />
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  p: 2,
+                }}
+              >
+                <Typography variant="body2" fontWeight={500}>
+                  Total Payment
+                </Typography>
+                <Typography variant="h6" color="error.main">
+                  {formatCurrency(cart.finalPrice * 1000)}
+                </Typography>
+              </Box>
             </Paper>
+
+            <Button
+              variant="contained"
+              color="error"
+              fullWidth
+              sx={{
+                mt: 2,
+              }}
+              onClick={() => navigate("/cart/checkout")}
+            >
+              Proceed to Checkout
+            </Button>
           </Grid>
         </Grid>
       ) : (
@@ -273,8 +360,18 @@ export default function Cart() {
           <Typography variant="body2">
             Looks like you haven't added any items to your cart yet
           </Typography>
+
+          <Box mt={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate("/shop")}
+            >
+              Go to shop
+            </Button>
+          </Box>
         </Paper>
       )}
-    </>
+    </Box>
   );
 }

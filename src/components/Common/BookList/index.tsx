@@ -17,6 +17,7 @@ import NoData from "../NoData";
 
 export default function BookList({
   title = "Books",
+  image,
   books,
   page,
   setPage,
@@ -28,6 +29,7 @@ export default function BookList({
   totalCount,
 }: {
   title?: string;
+  image?: string;
   books: Book[];
   page: number;
   setPage: (page: number) => void;
@@ -59,8 +61,10 @@ export default function BookList({
         <Typography
           variant="h5"
           sx={{
-            mt: 2,
+            display: "flex",
+            alignItems: "center",
             fontWeight: 500,
+            gap: 1,
 
             "& span": {
               color: "text.secondary",
@@ -68,6 +72,21 @@ export default function BookList({
             },
           }}
         >
+          {image && (
+            <Box
+              component="img"
+              src={image}
+              alt="book"
+              sx={{
+                width: 50,
+                height: 50,
+                objectFit: "cover",
+                objectPosition: "center",
+                borderRadius: "50%",
+              }}
+            />
+          )}
+
           {title}
           <span> ({totalCount})</span>
         </Typography>
@@ -79,7 +98,10 @@ export default function BookList({
               labelId="sort-by"
               id="sort-by"
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortBy)}
+              onChange={(e) => {
+                setSortBy(e.target.value as SortBy);
+                setPage(1);
+              }}
               label="Sort by"
               size="small"
             >
@@ -97,7 +119,10 @@ export default function BookList({
               labelId="take-items"
               id="take-items"
               value={take}
-              onChange={(e) => setTake(e.target.value as number)}
+              onChange={(e) => {
+                setTake(e.target.value as number);
+                setPage(1);
+              }}
               label="Show"
               size="small"
             >

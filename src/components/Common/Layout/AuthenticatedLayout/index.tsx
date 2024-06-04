@@ -8,12 +8,16 @@ import Logo from "components/Common/Logo";
 import { Outlet, useNavigate } from "react-router-dom";
 
 import { Badge, IconButton } from "@mui/material";
+import { useAppSelector } from "store";
+import { selectCartItemQuantity } from "store/slice/cartSlice";
 import { NavButton } from "../NavButton";
 import AvatarMenu from "./AvatarMenu";
 
 const AuthenticatedLayout = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+
+  const cartItemQuantity = useAppSelector(selectCartItemQuantity);
 
   return (
     <Box
@@ -45,7 +49,7 @@ const AuthenticatedLayout = () => {
               <NavButton to="/shop" label="Shop" />
               <NavButton to="/about" label="About" />
               <IconButton size="large" onClick={() => navigate("/cart")}>
-                <Badge badgeContent={0} color="error">
+                <Badge badgeContent={cartItemQuantity} color="error">
                   <LocalGroceryStoreIcon color="primary" />
                 </Badge>
               </IconButton>

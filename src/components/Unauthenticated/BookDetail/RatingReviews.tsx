@@ -270,7 +270,10 @@ export default function RatingReviews({
                   labelId="sort-by"
                   id="sort-by"
                   value={order}
-                  onChange={(e) => setOrder(e.target.value as Order)}
+                  onChange={(e) => {
+                    setOrder(e.target.value as Order);
+                    setPage(1);
+                  }}
                   label="Sort by"
                   size="small"
                 >
@@ -289,7 +292,10 @@ export default function RatingReviews({
                   labelId="take-items"
                   id="take-items"
                   value={take}
-                  onChange={(e) => setTake(e.target.value as number)}
+                  onChange={(e) => {
+                    setTake(e.target.value as number);
+                    setPage(1);
+                  }}
                   label="Show"
                   size="small"
                 >

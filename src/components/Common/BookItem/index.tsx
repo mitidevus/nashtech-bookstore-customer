@@ -1,17 +1,28 @@
 import { Box, Button, Rating, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "store";
 import { useAddToCartMutation } from "store/api/cart/cartApiSlice";
+import { selectIsLoggedIn } from "store/slice/userSlice";
 import { Book } from "types/book";
 import { formatCurrency } from "utils/currency";
+import { showInfo, showSuccess } from "utils/toast";
 
 export default function BookItem({ book }: { book: Book }) {
   const navigate = useNavigate();
 
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
   const [addToCart, { isLoading }] = useAddToCartMutation();
 
   const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      showInfo("Please login to continue");
+      navigate("/login");
+      return;
+    }
     try {
       await addToCart({ bookId: book.id, quantity: 1 }).unwrap();
+      showSuccess(`Added ${book.name} to cart`, 1500);
     } catch (error) {
       console.error(error);
     }
@@ -77,7 +88,7 @@ export default function BookItem({ book }: { book: Book }) {
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
-            minHeight: 50,
+            minHeight: 44,
             cursor: "pointer",
           }}
           onClick={() => navigate(`/shop/book/${book.slug}`)}
@@ -99,9 +110,7 @@ export default function BookItem({ book }: { book: Book }) {
               fontWeight: "bold",
             }}
           >
-            {formatCurrency(
-              book.promotionList ? book.finalPrice * 1000 : book.price * 1000
-            )}
+            {formatCurrency(book.finalPrice * 1000)}
           </Typography>
 
           {book.promotionList && (
@@ -121,27 +130,30 @@ export default function BookItem({ book }: { book: Book }) {
         <Box
           sx={{
             display: "flex",
-            alignItems: "center",
-            // gap: 1,
+            justifyContent: "space-between",
+            alignItems: "flex-end",
           }}
         >
-          <Rating
-            name="avgStars"
-            value={book.avgStars}
-            size="small"
-            precision={0.5}
-            readOnly
-          />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Rating
+              name="avgStars"
+              value={book.avgStars}
+              size="small"
+              precision={0.5}
+              readOnly
+            />
 
-          <Typography
-            variant="subtitle2"
-            sx={{
-              color: "text.secondary",
-              //   fontWeight: "normal",
-            }}
-          >
-            ({book.totalReviews})
-          </Typography>
+            <Typography
+              variant="subtitle2"
+              sx={{
+                color: "text.secondary",
+              }}
+            >
+              ({book.totalReviews})
+            </Typography>
+          </Box>
+
+          <Typography variant="caption">{book.soldQuantity} sold</Typography>
         </Box>
 
         <Button

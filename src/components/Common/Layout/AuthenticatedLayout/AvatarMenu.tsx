@@ -1,4 +1,5 @@
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import HistoryIcon from "@mui/icons-material/History";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Avatar from "@mui/material/Avatar";
@@ -11,9 +12,9 @@ import MenuList from "@mui/material/MenuList";
 import Typography from "@mui/material/Typography";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { useAppDispatch, useAppSelector } from "store";
 import { useLogoutMutation } from "store/api/user/userApiSlice";
-
 import { logOut } from "store/slice/userSlice";
 
 const AvatarMenu = () => {
@@ -73,6 +74,19 @@ const AvatarMenu = () => {
             </ListItemIcon>
             <ListItemText>
               <Typography>My profile</Typography>
+            </ListItemText>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate("/order");
+              handleCloseUserMenu();
+            }}
+          >
+            <ListItemIcon>
+              <HistoryIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography>Order history</Typography>
             </ListItemText>
           </MenuItem>
           <MenuItem onClick={handleLogout}>

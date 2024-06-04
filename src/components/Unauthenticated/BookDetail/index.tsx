@@ -16,13 +16,16 @@ import QuantityInput from "components/Common/QuantityInput";
 import { Order } from "constants/sort";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAppSelector } from "store";
 import {
   useLazyGetBookDetailQuery,
   useLazyGetRatingReviewsQuery,
 } from "store/api/book/bookApiSlice";
 import { useAddToCartMutation } from "store/api/cart/cartApiSlice";
+import { selectIsLoggedIn } from "store/slice/userSlice";
 import { RatingCount, RatingReview } from "types/rating-review";
 import { formatCurrency } from "utils/currency";
+import { showSuccess } from "utils/toast";
 import RatingReviews from "./RatingReviews";
 
 const ChipList = ({
@@ -83,6 +86,8 @@ export default function BookDetail() {
 
   const { slug } = useParams();
 
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
   const [quantity, setQuantity] = useState(1);
   const [page, setPage] = useState(1);
   const [take, setTake] = useState(5);
@@ -136,9 +141,11 @@ export default function BookDetail() {
           });
         } catch (error) {
           navigate("/shop");
+          return;
         }
       } else {
         navigate("/shop");
+        return;
       }
     })();
   }, [
@@ -165,9 +172,14 @@ export default function BookDetail() {
   ];
 
   const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      navigate("/login");
+      return;
+    }
     try {
       if (book?.id) {
         await addToCart({ bookId: book.id, quantity }).unwrap();
+        showSuccess(`Added ${book.name} to cart`, 1500);
       }
     } catch (error) {
       console.error(error);
@@ -309,12 +321,7 @@ export default function BookDetail() {
                     fontWeight: "bold",
                   }}
                 >
-                  {book &&
-                    formatCurrency(
-                      book?.promotionList
-                        ? book.finalPrice * 1000
-                        : book.price * 1000
-                    )}
+                  {book && formatCurrency(book.finalPrice * 1000)}
                 </Typography>
 
                 {book?.promotionList && (

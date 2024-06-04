@@ -1,3 +1,4 @@
+import { resetCart } from "store/slice/cartSlice";
 import { setIsLoggedIn, setUserInfo } from "store/slice/userSlice";
 import { LoginDto, LoginResponse, SignUpDto, SignupResponse } from "types/auth";
 import { User } from "types/user";
@@ -46,6 +47,10 @@ const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(resetCart());
+      },
     }),
   }),
 });

@@ -7,10 +7,12 @@ import {
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import { apiSlice, apiWithToastSlice } from "./api/baseApiSlice";
+import { cartSlice } from "./slice/cartSlice";
 import { userSlice } from "./slice/userSlice";
 
 const combinedReducer = combineReducers({
   user: userSlice.reducer,
+  cart: cartSlice.reducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
   [apiWithToastSlice.reducerPath]: apiWithToastSlice.reducer,
 });
