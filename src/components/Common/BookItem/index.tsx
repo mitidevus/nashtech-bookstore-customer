@@ -1,15 +1,25 @@
 import { Box, Button, Rating, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "store";
 import { useAddToCartMutation } from "store/api/cart/cartApiSlice";
+import { selectIsLoggedIn } from "store/slice/userSlice";
 import { Book } from "types/book";
 import { formatCurrency } from "utils/currency";
+import { showInfo } from "utils/toast";
 
 export default function BookItem({ book }: { book: Book }) {
   const navigate = useNavigate();
 
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
   const [addToCart, { isLoading }] = useAddToCartMutation();
 
   const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      showInfo("Please login to continue");
+      navigate("/login");
+      return;
+    }
     try {
       await addToCart({ bookId: book.id, quantity: 1 }).unwrap();
     } catch (error) {
@@ -120,7 +130,6 @@ export default function BookItem({ book }: { book: Book }) {
           sx={{
             display: "flex",
             alignItems: "center",
-            // gap: 1,
           }}
         >
           <Rating
@@ -135,7 +144,6 @@ export default function BookItem({ book }: { book: Book }) {
             variant="subtitle2"
             sx={{
               color: "text.secondary",
-              //   fontWeight: "normal",
             }}
           >
             ({book.totalReviews})

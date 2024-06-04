@@ -1,5 +1,6 @@
-import { setCart } from "store/slice/cartSlice";
-import { Cart } from "types/cart";
+import { resetCart, setCart } from "store/slice/cartSlice";
+import { Cart, CheckoutDto } from "types/cart";
+import { Order } from "types/order";
 import { apiSlice } from "../baseApiSlice";
 
 const cartApiSlice = apiSlice.injectEndpoints({
@@ -55,6 +56,17 @@ const cartApiSlice = apiSlice.injectEndpoints({
         dispatch(setCart(data.totalQuantity));
       },
     }),
+    checkout: build.mutation<Order, CheckoutDto>({
+      query: (body) => ({
+        url: "cart/checkout",
+        method: "POST",
+        body,
+      }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(resetCart());
+      },
+    }),
   }),
 });
 
@@ -65,4 +77,5 @@ export const {
   useUpdateCartItemsMutation,
   useRemoveCartItemMutation,
   useClearCartMutation,
+  useCheckoutMutation,
 } = cartApiSlice;

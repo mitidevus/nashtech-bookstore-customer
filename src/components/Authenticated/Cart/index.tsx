@@ -94,12 +94,12 @@ export default function Cart() {
   }
 
   return (
-    <>
+    <Box minWidth={670}>
       <Breadcrumbs />
 
       {cart && cart.items.length > 0 ? (
         <Grid container spacing={2}>
-          <Grid item xs={12} md={8.5}>
+          <Grid item xs={12} lg={8.5}>
             <Paper elevation={1} sx={{ py: 2 }}>
               <Typography
                 variant="h5"
@@ -261,7 +261,7 @@ export default function Cart() {
               </Box>
             </Paper>
           </Grid>
-          <Grid item xs={12} md={3.5}>
+          <Grid item xs={12} lg={3.5}>
             <Paper elevation={1}>
               <Typography
                 variant="h5"
@@ -362,6 +362,6 @@ export default function Cart() {
           </Typography>
         </Paper>
       )}
-    </>
+    </Box>
   );
 }

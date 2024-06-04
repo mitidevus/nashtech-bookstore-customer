@@ -136,9 +136,11 @@ export default function BookDetail() {
           });
         } catch (error) {
           navigate("/shop");
+          return;
         }
       } else {
         navigate("/shop");
+        return;
       }
     })();
   }, [

@@ -47,7 +47,8 @@ const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-      onQueryStarted: async (_, { dispatch }) => {
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
         dispatch(resetCart());
       },
     }),

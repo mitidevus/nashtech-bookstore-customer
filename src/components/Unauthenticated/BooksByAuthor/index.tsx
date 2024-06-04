@@ -50,9 +50,11 @@ export default function BooksByAuthor() {
           });
         } catch (error) {
           navigate("/shop");
+          return;
         }
       } else {
         navigate("/shop");
+        return;
       }
     })();
   }, [getBooks, navigate, page, slug, sortBy, take]);

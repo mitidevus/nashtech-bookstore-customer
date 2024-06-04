@@ -17,3 +17,10 @@ export type Cart = {
   finalPrice: number;
   discount: number;
 };
+
+export type CheckoutDto = {
+  fullName: string;
+  phone: string;
+  shippingAddress: string;
+  paymentMethod: string;
+};

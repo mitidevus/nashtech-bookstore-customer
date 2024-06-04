@@ -1,20 +1,12 @@
-import { resetCart } from "store/slice/cartSlice";
-import { CreateOrderDto } from "types/order";
+import { Order } from "types/order";
 import { apiSlice } from "../baseApiSlice";
 
 const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    createOrder: build.mutation<void, CreateOrderDto>({
-      query: (body) => ({
-        url: "orders",
-        method: "POST",
-        body,
-      }),
-      onQueryStarted: (_, { dispatch }) => {
-        dispatch(resetCart());
-      },
+    getOrder: build.query<Order, string>({
+      query: (id) => `orders/${id}`,
     }),
   }),
 });
 
-export const { useCreateOrderMutation } = orderApiSlice;
+export const { useGetOrderQuery, useLazyGetOrderQuery } = orderApiSlice;

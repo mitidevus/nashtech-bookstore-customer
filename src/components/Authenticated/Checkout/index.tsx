@@ -26,11 +26,12 @@ import { Breadcrumbs } from "components/Common/Breadcrumbs";
 import CenterLoading from "components/Common/CenterLoading";
 import { PaymentMethod } from "constants/order";
 import { useAppSelector } from "store";
-import { useLazyGetCartQuery } from "store/api/cart/cartApiSlice";
-import { useCreateOrderMutation } from "store/api/order/orderApiSlice";
+import {
+  useCheckoutMutation,
+  useLazyGetCartQuery,
+} from "store/api/cart/cartApiSlice";
 import { selectUserInfo } from "store/slice/userSlice";
-import { Cart } from "types/cart";
-import { CreateOrderDto } from "types/order";
+import { Cart, CheckoutDto } from "types/cart";
 import { formatCurrency } from "utils/currency";
 import { showSuccess } from "utils/toast";
 
@@ -47,8 +48,8 @@ export default function Checkout() {
   });
 
   const [getCart, { isLoading }] = useLazyGetCartQuery();
-  const [createOrder, { isLoading: isCreatingOrder }] =
-    useCreateOrderMutation();
+  const [requestCheckout, { isLoading: isCreatingOrder }] =
+    useCheckoutMutation();
 
   useEffect(() => {
     (async () => {
@@ -64,6 +65,7 @@ export default function Checkout() {
       } catch (error) {
         console.error(error);
         navigate("/cart");
+        return;
       }
     })();
   }, [getCart, navigate]);
@@ -72,7 +74,7 @@ export default function Checkout() {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<CreateOrderDto>({
+  } = useForm<CheckoutDto>({
     defaultValues: {
       fullName: user?.name || "",
       phone: user?.phone || "",
@@ -81,11 +83,14 @@ export default function Checkout() {
     },
   });
 
-  const onSubmit: SubmitHandler<CreateOrderDto> = async (data) => {
+  const onSubmit: SubmitHandler<CheckoutDto> = async (data) => {
     try {
-      await createOrder(data).unwrap();
+      const res = await requestCheckout(data).unwrap();
 
       showSuccess("Thank you for ordering!");
+
+      navigate(`/order/${res.id}`);
+      return;
     } catch (error) {
       // handled error
     }
@@ -100,7 +105,11 @@ export default function Checkout() {
       <Breadcrumbs />
 
       {cart && cart.items.length > 0 && (
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          direction={{ xs: "column-reverse", md: "row" }}
+        >
           <Grid item xs={12} md={6.5}>
             <Paper elevation={1}>
               <Typography
