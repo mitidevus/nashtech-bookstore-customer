@@ -5,6 +5,7 @@ import {
   AccordionSummary,
   Divider,
   Grid,
+  Rating,
   TextField,
   Typography,
 } from "@mui/material";
@@ -160,9 +161,12 @@ export default function ShopLayout({
                 <Typography
                   key={rating}
                   component={Link}
-                  to={`/shop/rating/${rating}`}
+                  to={`/shop?rating=${rating}`}
                   variant="subtitle2"
                   sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                     py: 1,
                     color: "text.secondary",
                     "&:hover": {
@@ -170,7 +174,13 @@ export default function ShopLayout({
                     },
                   }}
                 >
-                  {`${rating} ${rating === 1 ? "star" : "stars"}`}
+                  {rating === 5 ? "5 stars" : `From ${rating} stars`}
+                  <Rating
+                    name="avgStars"
+                    value={rating}
+                    size="small"
+                    readOnly
+                  />
                 </Typography>
               ))}
             </Grid>
