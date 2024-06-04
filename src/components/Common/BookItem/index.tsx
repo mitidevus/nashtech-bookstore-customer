@@ -88,7 +88,7 @@ export default function BookItem({ book }: { book: Book }) {
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
-            minHeight: 50,
+            minHeight: 44,
             cursor: "pointer",
           }}
           onClick={() => navigate(`/shop/book/${book.slug}`)}

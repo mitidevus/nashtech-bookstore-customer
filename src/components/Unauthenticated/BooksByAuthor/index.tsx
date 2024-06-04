@@ -15,11 +15,13 @@ export default function BooksByAuthor() {
 
   const [data, setData] = useState<{
     title: string;
+    image: string;
     books: Book[];
     totalPages: number;
     totalCount: number;
   }>({
     title: "Author",
+    image: "",
     books: [],
     totalPages: 1,
     totalCount: 0,
@@ -44,6 +46,7 @@ export default function BooksByAuthor() {
 
           setData({
             title: res.name,
+            image: res.image,
             books: res.books.data,
             totalPages: res.books.totalPages,
             totalCount: res.books.totalCount,
@@ -75,6 +78,8 @@ export default function BooksByAuthor() {
       <Breadcrumbs customRoutes={customRoutes} />
 
       <ShopLayout>
+        {/* Show image of author */}
+
         <BookList
           {...data}
           page={page}
