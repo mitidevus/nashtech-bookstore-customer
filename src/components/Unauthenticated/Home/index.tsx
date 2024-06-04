@@ -65,7 +65,7 @@ export default function Home() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: 2,
+          gap: 4,
         }}
       >
         <Paper
@@ -90,9 +90,9 @@ export default function Home() {
           </Typography>
 
           {data && data.onSale.length > 0 ? (
-            <Grid container spacing={2}>
+            <Grid container spacing={2} p={2}>
               {data.onSale.map((book) => (
-                <Grid item lg={2.5} key={book.id}>
+                <Grid item lg={3} key={book.id}>
                   <BookItem book={book} />
                 </Grid>
               ))}
@@ -124,9 +124,9 @@ export default function Home() {
           </Typography>
 
           {data && data.recommended.length > 0 ? (
-            <Grid container spacing={2}>
+            <Grid container spacing={2} p={2}>
               {data.recommended.map((book) => (
-                <Grid item lg={2.5} key={book.id}>
+                <Grid item lg={3} key={book.id}>
                   <BookItem book={book} />
                 </Grid>
               ))}
@@ -158,9 +158,9 @@ export default function Home() {
           </Typography>
 
           {data && data.popular.length > 0 ? (
-            <Grid container spacing={2}>
+            <Grid container spacing={2} p={2}>
               {data.popular.map((book) => (
-                <Grid item lg={2.5} key={book.id}>
+                <Grid item lg={3} key={book.id}>
                   <BookItem book={book} />
                 </Grid>
               ))}

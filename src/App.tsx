@@ -19,6 +19,7 @@ import Signup from "components/Unauthenticated/Signup";
 import Cart from "components/Authenticated/Cart";
 import Checkout from "components/Authenticated/Checkout";
 import OrderDetail from "components/Authenticated/OrderDetail";
+import OrderList from "components/Authenticated/OrderList";
 import BookDetail from "components/Unauthenticated/BookDetail";
 import Home from "components/Unauthenticated/Home";
 import { useLazyGetProfileQuery } from "store/api/user/userApiSlice";
@@ -103,7 +104,7 @@ const protectedRoutes = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Box>Order History</Box>,
+            element: <OrderList />,
           },
           {
             path: ":id",

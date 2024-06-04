@@ -360,6 +360,16 @@ export default function Cart() {
           <Typography variant="body2">
             Looks like you haven't added any items to your cart yet
           </Typography>
+
+          <Box mt={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate("/shop")}
+            >
+              Go to shop
+            </Button>
+          </Box>
         </Paper>
       )}
     </Box>

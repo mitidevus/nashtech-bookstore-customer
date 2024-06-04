@@ -5,7 +5,7 @@ import { useAddToCartMutation } from "store/api/cart/cartApiSlice";
 import { selectIsLoggedIn } from "store/slice/userSlice";
 import { Book } from "types/book";
 import { formatCurrency } from "utils/currency";
-import { showInfo } from "utils/toast";
+import { showInfo, showSuccess } from "utils/toast";
 
 export default function BookItem({ book }: { book: Book }) {
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ export default function BookItem({ book }: { book: Book }) {
     }
     try {
       await addToCart({ bookId: book.id, quantity: 1 }).unwrap();
+      showSuccess(`Added ${book.name} to cart`, 1500);
     } catch (error) {
       console.error(error);
     }
@@ -129,25 +130,30 @@ export default function BookItem({ book }: { book: Book }) {
         <Box
           sx={{
             display: "flex",
-            alignItems: "center",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
           }}
         >
-          <Rating
-            name="avgStars"
-            value={book.avgStars}
-            size="small"
-            precision={0.5}
-            readOnly
-          />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Rating
+              name="avgStars"
+              value={book.avgStars}
+              size="small"
+              precision={0.5}
+              readOnly
+            />
 
-          <Typography
-            variant="subtitle2"
-            sx={{
-              color: "text.secondary",
-            }}
-          >
-            ({book.totalReviews})
-          </Typography>
+            <Typography
+              variant="subtitle2"
+              sx={{
+                color: "text.secondary",
+              }}
+            >
+              ({book.totalReviews})
+            </Typography>
+          </Box>
+
+          <Typography variant="caption">{book.soldQuantity} sold</Typography>
         </Box>
 
         <Button

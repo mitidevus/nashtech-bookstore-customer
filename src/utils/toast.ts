@@ -1,7 +1,9 @@
 import toast from "react-hot-toast";
 
-export function showSuccess(message: string) {
-  toast.success(message);
+export function showSuccess(message: string, duration = 3000) {
+  toast.success(message, {
+    duration,
+  });
 }
 
 export function showError(message: string) {

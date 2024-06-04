@@ -1,5 +1,5 @@
 import { SortBy } from "constants/sort";
-import { GetListResult } from "types/app";
+import { GetList } from "types/app";
 import { Author } from "types/author";
 import { Book } from "types/book";
 import { apiSlice } from "../baseApiSlice";
@@ -11,7 +11,7 @@ const authorApiSlice = apiSlice.injectEndpoints({
       transformResponse: (response: { data: Author[] }) => response.data,
     }),
     getBooksByAuthorSlug: build.query<
-      Author & { books: GetListResult<Book> },
+      Author & { books: GetList<Book> },
       {
         slug: string;
         page: number;

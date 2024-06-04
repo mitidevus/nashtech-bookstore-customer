@@ -1,5 +1,5 @@
 import { SortBy } from "constants/sort";
-import { GetListResult } from "types/app";
+import { GetList } from "types/app";
 import { Book } from "types/book";
 import { Category } from "types/category";
 import { apiSlice } from "../baseApiSlice";
@@ -11,7 +11,7 @@ const categoryApiSlice = apiSlice.injectEndpoints({
       transformResponse: (response: { data: Category[] }) => response.data,
     }),
     getBooksByCategorySlug: build.query<
-      Category & { books: GetListResult<Book> },
+      Category & { books: GetList<Book> },
       {
         slug: string;
         page: number;
