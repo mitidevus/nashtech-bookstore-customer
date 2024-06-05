@@ -1,14 +1,19 @@
+import { Button, TextField } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import { useTheme } from "@mui/material/styles";
 import Logo from "components/Common/Logo";
-import { Outlet } from "react-router-dom";
+import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { NavButton } from "../NavButton";
 
 const UnauthenticatedLayout = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
+
+  const [keyword, setKeyword] = useState("");
 
   return (
     <Box
@@ -34,9 +39,59 @@ const UnauthenticatedLayout = () => {
               height: "100%",
             }}
           >
-            <Logo height="70%" />
+            <Box
+              height="70%"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <Logo />
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Box
+                component="form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  navigate(`/shop?q=${keyword}`);
+                  return;
+                }}
+                autoComplete="off"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 2,
+                }}
+              >
+                <TextField
+                  label="Search"
+                  variant="outlined"
+                  size="small"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                  sx={{ width: 300 }}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="medium"
+                  disabled={!keyword}
+                >
+                  Search
+                </Button>
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  md: "flex",
+                },
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
               <NavButton to="/" label="Home" />
               <NavButton to="/shop" label="Shop" />
               <NavButton to="/about" label="About" />

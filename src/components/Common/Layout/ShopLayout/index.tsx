@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import CenterLoading from "components/Common/CenterLoading";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useGetAuthorsQuery } from "store/api/author/authorApiSlice";
 import { useGetCategoriesQuery } from "store/api/category/categoryApiSlice";
 import { Author } from "types/author";
@@ -114,9 +114,18 @@ export default function ShopLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const rating = searchParams.get("rating");
+
   const { data: authors, isLoading: fetchingAuthor } = useGetAuthorsQuery();
   const { data: categories, isLoading: fetchingCategory } =
     useGetCategoriesQuery();
+
+  const handleRatingFilterClick = (rating: number) => {
+    const currentSearchParams = new URLSearchParams(searchParams);
+    currentSearchParams.set("rating", `${rating}`);
+    setSearchParams(currentSearchParams);
+  };
 
   if (fetchingAuthor || fetchingCategory) {
     return <CenterLoading />;
@@ -157,30 +166,28 @@ export default function ShopLayout({
 
           <AccordionDetails>
             <Grid container direction="column">
-              {[5, 4, 3, 2, 1].map((rating) => (
+              {[5, 4, 3, 2, 1].map((item) => (
                 <Typography
-                  key={rating}
-                  component={Link}
-                  to={`/shop?rating=${rating}`}
+                  key={item}
                   variant="subtitle2"
                   sx={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
                     py: 1,
-                    color: "text.secondary",
+                    color:
+                      item === parseInt(rating as string)
+                        ? "primary.main"
+                        : "text.secondary",
                     "&:hover": {
                       color: "primary.main",
+                      cursor: "pointer",
                     },
                   }}
+                  onClick={() => handleRatingFilterClick(item)}
                 >
-                  {rating === 5 ? "5 stars" : `From ${rating} stars`}
-                  <Rating
-                    name="avgStars"
-                    value={rating}
-                    size="small"
-                    readOnly
-                  />
+                  {item === 5 ? "5 stars" : `From ${item} stars`}
+                  <Rating name="avgStars" value={item} size="small" readOnly />
                 </Typography>
               ))}
             </Grid>
