@@ -15,7 +15,7 @@ export default function AboutUs() {
     <>
       <Breadcrumbs />
 
-      <Paper sx={{ p: 2 }}>
+      <Paper sx={{ p: 2, borderRadius: 2 }}>
         {data ? (
           <Box dangerouslySetInnerHTML={{ __html: data }} />
         ) : (

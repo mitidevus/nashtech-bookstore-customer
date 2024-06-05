@@ -70,7 +70,12 @@ export default function OrderList() {
       <Breadcrumbs customRoutes={customRoutes} />
 
       {data && data.data.length > 0 ? (
-        <Paper elevation={1}>
+        <Paper
+          elevation={1}
+          sx={{
+            borderRadius: 2,
+          }}
+        >
           <Box
             sx={{
               width: "100%",
