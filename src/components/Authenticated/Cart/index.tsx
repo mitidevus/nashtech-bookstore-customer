@@ -140,7 +140,14 @@ export default function Cart() {
                           sx={{
                             display: "flex",
                             alignItems: "center",
+                            "&:hover": {
+                              cursor: "pointer",
+                              color: "primary.main",
+                            },
                           }}
+                          onClick={() =>
+                            navigate(`/shop/book/${item.book.slug}`)
+                          }
                         >
                           <img
                             src={item.book.image}
