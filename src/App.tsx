@@ -20,6 +20,7 @@ import Cart from "components/Authenticated/Cart";
 import Checkout from "components/Authenticated/Checkout";
 import OrderDetail from "components/Authenticated/OrderDetail";
 import OrderList from "components/Authenticated/OrderList";
+import AboutUs from "components/Unauthenticated/AboutUs";
 import BookDetail from "components/Unauthenticated/BookDetail";
 import Home from "components/Unauthenticated/Home";
 import { useLazyGetProfileQuery } from "store/api/user/userApiSlice";
@@ -54,7 +55,7 @@ const sharedRoutes = [
   },
   {
     path: "about",
-    element: <Box>About</Box>,
+    element: <AboutUs />,
   },
 ];
 
