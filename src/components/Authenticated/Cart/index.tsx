@@ -100,7 +100,7 @@ export default function Cart() {
       {cart && cart.items.length > 0 ? (
         <Grid container spacing={2}>
           <Grid item xs={12} lg={8.5}>
-            <Paper elevation={1} sx={{ py: 2 }}>
+            <Paper elevation={1} sx={{ py: 2, borderRadius: 2 }}>
               <Typography
                 variant="h5"
                 sx={{
@@ -140,7 +140,14 @@ export default function Cart() {
                           sx={{
                             display: "flex",
                             alignItems: "center",
+                            "&:hover": {
+                              cursor: "pointer",
+                              color: "primary.main",
+                            },
                           }}
+                          onClick={() =>
+                            navigate(`/shop/book/${item.book.slug}`)
+                          }
                         >
                           <img
                             src={item.book.image}
@@ -262,7 +269,12 @@ export default function Cart() {
             </Paper>
           </Grid>
           <Grid item xs={12} lg={3.5}>
-            <Paper elevation={1}>
+            <Paper
+              elevation={1}
+              sx={{
+                borderRadius: 2,
+              }}
+            >
               <Typography
                 variant="h5"
                 sx={{

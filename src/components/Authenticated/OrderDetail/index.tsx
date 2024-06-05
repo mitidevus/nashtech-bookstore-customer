@@ -75,7 +75,12 @@ export default function OrderDetail() {
       >
         <Grid container spacing={2}>
           <Grid item xs={12} lg={6}>
-            <Paper elevation={1}>
+            <Paper
+              elevation={1}
+              sx={{
+                borderRadius: 2,
+              }}
+            >
               <Typography
                 variant="h5"
                 sx={{
@@ -152,7 +157,12 @@ export default function OrderDetail() {
             </Paper>
           </Grid>
           <Grid item xs={12} lg={6}>
-            <Paper elevation={1}>
+            <Paper
+              elevation={1}
+              sx={{
+                borderRadius: 2,
+              }}
+            >
               <Typography
                 variant="h5"
                 sx={{
@@ -209,7 +219,12 @@ export default function OrderDetail() {
           </Grid>
         </Grid>
 
-        <Paper elevation={1}>
+        <Paper
+          elevation={1}
+          sx={{
+            borderRadius: 2,
+          }}
+        >
           <Typography
             variant="h5"
             sx={{
@@ -243,7 +258,12 @@ export default function OrderDetail() {
                         sx={{
                           display: "flex",
                           alignItems: "center",
+                          "&:hover": {
+                            cursor: "pointer",
+                            color: "primary.main",
+                          },
                         }}
+                        onClick={() => navigate(`/shop/book/${item.book.slug}`)}
                       >
                         <img
                           src={item.book.image}

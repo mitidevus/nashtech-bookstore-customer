@@ -111,7 +111,12 @@ export default function Checkout() {
           direction={{ xs: "column-reverse", md: "row" }}
         >
           <Grid item xs={12} md={6.5}>
-            <Paper elevation={1}>
+            <Paper
+              elevation={1}
+              sx={{
+                borderRadius: 2,
+              }}
+            >
               <Typography
                 variant="h5"
                 sx={{
@@ -358,7 +363,12 @@ export default function Checkout() {
           </Grid>
 
           <Grid item xs={12} md={5.5}>
-            <Paper elevation={1}>
+            <Paper
+              elevation={1}
+              sx={{
+                borderRadius: 2,
+              }}
+            >
               <Typography
                 variant="h5"
                 sx={{
