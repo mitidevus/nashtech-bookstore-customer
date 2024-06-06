@@ -92,7 +92,7 @@ export default function Home() {
           {data && data.onSale.length > 0 ? (
             <Grid container spacing={2} p={2}>
               {data.onSale.map((book) => (
-                <Grid item lg={3} key={book.id}>
+                <Grid item xs={6} md={4} lg={3} key={book.id}>
                   <BookItem book={book} />
                 </Grid>
               ))}
@@ -126,7 +126,7 @@ export default function Home() {
           {data && data.recommended.length > 0 ? (
             <Grid container spacing={2} p={2}>
               {data.recommended.map((book) => (
-                <Grid item lg={3} key={book.id}>
+                <Grid item xs={6} md={4} lg={3} key={book.id}>
                   <BookItem book={book} />
                 </Grid>
               ))}
@@ -160,7 +160,7 @@ export default function Home() {
           {data && data.popular.length > 0 ? (
             <Grid container spacing={2} p={2}>
               {data.popular.map((book) => (
-                <Grid item lg={3} key={book.id}>
+                <Grid item xs={6} md={4} lg={3} key={book.id}>
                   <BookItem book={book} />
                 </Grid>
               ))}

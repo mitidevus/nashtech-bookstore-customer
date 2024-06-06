@@ -58,7 +58,10 @@ const UnauthenticatedLayout = () => {
                 }}
                 autoComplete="off"
                 sx={{
-                  display: "flex",
+                  display: {
+                    xs: "none",
+                    md: "flex",
+                  },
                   alignItems: "center",
                   gap: 2,
                 }}
@@ -84,10 +87,7 @@ const UnauthenticatedLayout = () => {
 
             <Box
               sx={{
-                display: {
-                  xs: "none",
-                  md: "flex",
-                },
+                display: "flex",
                 alignItems: "center",
                 gap: 2,
               }}

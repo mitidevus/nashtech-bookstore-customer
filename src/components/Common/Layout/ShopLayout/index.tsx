@@ -133,7 +133,17 @@ export default function ShopLayout({
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={2.5}>
+      <Grid
+        item
+        xs={12}
+        md={2.5}
+        sx={{
+          minWidth: {
+            xs: 615,
+            md: 0,
+          },
+        }}
+      >
         <SearchableAccordion
           title="Author"
           items={authors as Author[]}

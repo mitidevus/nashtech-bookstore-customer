@@ -48,6 +48,7 @@ export default function BookList({
         alignItems: "center",
         gap: 2,
         p: 2,
+        minWidth: 600,
       }}
     >
       <Box

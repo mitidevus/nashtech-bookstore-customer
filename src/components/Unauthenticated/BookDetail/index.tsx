@@ -194,7 +194,13 @@ export default function BookDetail() {
     <>
       <Breadcrumbs customRoutes={customRoutes} />
 
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          minWidth: 600,
+        }}
+      >
         <Grid item xs={12} md={4}>
           <Paper
             elevation={1}
