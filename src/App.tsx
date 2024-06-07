@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
   Navigate,
@@ -18,8 +17,10 @@ import Signup from "components/Unauthenticated/Signup";
 
 import Cart from "components/Authenticated/Cart";
 import Checkout from "components/Authenticated/Checkout";
+import EditProfile from "components/Authenticated/EditProfile";
 import OrderDetail from "components/Authenticated/OrderDetail";
 import OrderList from "components/Authenticated/OrderList";
+import Profile from "components/Authenticated/Profile";
 import AboutUs from "components/Unauthenticated/AboutUs";
 import BookDetail from "components/Unauthenticated/BookDetail";
 import Home from "components/Unauthenticated/Home";
@@ -115,7 +116,16 @@ const protectedRoutes = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Box>Profile</Box>,
+        children: [
+          {
+            index: true,
+            element: <Profile />,
+          },
+          {
+            path: "edit",
+            element: <EditProfile />,
+          },
+        ],
       },
     ],
   },

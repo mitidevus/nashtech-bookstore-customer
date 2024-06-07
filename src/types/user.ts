@@ -6,3 +6,10 @@ export type User = {
   address: string;
   phone: string;
 };
+
+export type EditProfileDto = {
+  name?: string;
+  phone?: string;
+  address?: string;
+  image?: File;
+};
