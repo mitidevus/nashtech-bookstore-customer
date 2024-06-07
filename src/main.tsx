@@ -8,6 +8,7 @@ import { CssBaseline } from "@mui/material";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
+import "swiper/css";
 
 import CustomToaster from "components/Common/CustomToaster.tsx";
 import App from "./App";

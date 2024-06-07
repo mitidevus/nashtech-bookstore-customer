@@ -12,6 +12,8 @@ import CenterLoading from "components/Common/CenterLoading";
 import NoData from "components/Common/NoData";
 import { SpecialBook } from "constants/book";
 import { useLazyGetSpecialBooksQuery } from "store/api/book/bookApiSlice";
+import { Autoplay, FreeMode } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Book } from "types/book";
 
 export default function Home() {
@@ -66,7 +68,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <Box minWidth={600}>
       <Breadcrumbs />
 
       <Box
@@ -99,13 +101,42 @@ export default function Home() {
           </Typography>
 
           {data && data.onSale.length > 0 ? (
-            <Grid container spacing={2} px={2} py={1}>
-              {data.onSale.map((book) => (
-                <Grid item xs={6} md={4} lg={3} key={book.id}>
-                  <BookItem book={book} />
-                </Grid>
-              ))}
-            </Grid>
+            // <Grid container spacing={2} px={2} py={1}>
+            //   {data.onSale.map((book) => (
+            //     <Grid item xs={6} md={4} lg={3} key={book.id}>
+            //       <BookItem book={book} />
+            //     </Grid>
+            //   ))}
+            // </Grid>
+            <Box sx={{ px: 2 }}>
+              <Swiper
+                modules={[Autoplay, FreeMode]}
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                loop
+                spaceBetween={16}
+                slidesPerView={4}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 2,
+                  },
+                  900: {
+                    slidesPerView: 3,
+                  },
+                  1200: {
+                    slidesPerView: 4,
+                  },
+                }}
+                style={{
+                  padding: "4px 0",
+                }}
+              >
+                {data.onSale.map((book) => (
+                  <SwiperSlide key={book.id}>
+                    <BookItem book={book} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </Box>
           ) : (
             <NoData />
           )}
@@ -218,6 +249,6 @@ export default function Home() {
           </TabContext>
         </Paper>
       </Box>
-    </>
+    </Box>
   );
 }
