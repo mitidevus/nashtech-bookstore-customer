@@ -73,7 +73,7 @@ const AvatarMenu = () => {
               <ManageAccountsIcon />
             </ListItemIcon>
             <ListItemText>
-              <Typography>My profile</Typography>
+              <Typography>Profile</Typography>
             </ListItemText>
           </MenuItem>
           <MenuItem
