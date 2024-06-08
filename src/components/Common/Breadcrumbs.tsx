@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 import useReactRouterBreadcrumbs from "use-react-router-breadcrumbs";
 
 export const Breadcrumbs = ({ customRoutes }: { customRoutes?: any[] }) => {
-  const breadcrumbs = useReactRouterBreadcrumbs(customRoutes, {
-    excludePaths: ["/shop/category", "/shop/author"],
-  });
+  const breadcrumbs = useReactRouterBreadcrumbs(customRoutes);
 
   return (
     <>
