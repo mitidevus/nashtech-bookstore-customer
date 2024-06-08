@@ -5,10 +5,10 @@ import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import { useTheme } from "@mui/material/styles";
 import Logo from "components/Common/Logo";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 
 import { Badge, Button, IconButton, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "store";
 import { selectCartItemQuantity } from "store/slice/cartSlice";
 import Footer from "../Footer";
@@ -17,11 +17,18 @@ import AvatarMenu from "./AvatarMenu";
 
 const AuthenticatedLayout = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const theme = useTheme();
 
   const [keyword, setKeyword] = useState("");
 
   const cartItemQuantity = useAppSelector(selectCartItemQuantity);
+
+  useEffect(() => {
+    if (!searchParams.has("search")) {
+      setKeyword("");
+    }
+  }, [searchParams]);
 
   return (
     <Box
@@ -60,7 +67,7 @@ const AuthenticatedLayout = () => {
                 component="form"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  navigate(`/shop?q=${keyword}`);
+                  navigate(`/shop?search=${keyword}`);
                   return;
                 }}
                 autoComplete="off"

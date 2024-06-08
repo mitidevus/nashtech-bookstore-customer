@@ -5,15 +5,23 @@ import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import { useTheme } from "@mui/material/styles";
 import Logo from "components/Common/Logo";
-import { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import Footer from "../Footer";
 import { NavButton } from "../NavButton";
 
 const UnauthenticatedLayout = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const theme = useTheme();
 
   const [keyword, setKeyword] = useState("");
+
+  useEffect(() => {
+    if (!searchParams.has("search")) {
+      setKeyword("");
+    }
+  }, [searchParams]);
 
   return (
     <Box
@@ -53,7 +61,7 @@ const UnauthenticatedLayout = () => {
                 component="form"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  navigate(`/shop?q=${keyword}`);
+                  navigate(`/shop?search=${keyword}`);
                   return;
                 }}
                 autoComplete="off"
@@ -112,6 +120,8 @@ const UnauthenticatedLayout = () => {
       >
         <Outlet />
       </Container>
+
+      <Footer />
     </Box>
   );
 };
