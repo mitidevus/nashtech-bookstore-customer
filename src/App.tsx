@@ -9,9 +9,6 @@ import { useAppSelector } from "store";
 import CenterLoading from "components/Common/CenterLoading";
 import AuthenticatedLayout from "components/Common/Layout/AuthenticatedLayout";
 import UnauthenticatedLayout from "components/Common/Layout/UnauthenticatedLayout";
-import AllBooks from "components/Unauthenticated/AllBooks";
-import BooksByAuthor from "components/Unauthenticated/BooksByAuthor";
-import BooksByCategory from "components/Unauthenticated/BooksByCategory";
 import Login from "components/Unauthenticated/Login";
 import Signup from "components/Unauthenticated/Signup";
 
@@ -24,6 +21,7 @@ import Profile from "components/Authenticated/Profile";
 import AboutUs from "components/Unauthenticated/AboutUs";
 import BookDetail from "components/Unauthenticated/BookDetail";
 import Home from "components/Unauthenticated/Home";
+import ShopPage from "components/Unauthenticated/ShopPage";
 import { useLazyGetCartQuery } from "store/api/cart/cartApiSlice";
 import { useLazyGetProfileQuery } from "store/api/user/userApiSlice";
 import { selectIsLoggedIn } from "store/slice/userSlice";
@@ -39,15 +37,7 @@ const sharedRoutes = [
     children: [
       {
         index: true,
-        element: <AllBooks />,
-      },
-      {
-        path: "author/:slug",
-        element: <BooksByAuthor />,
-      },
-      {
-        path: "category/:slug",
-        element: <BooksByCategory />,
+        element: <ShopPage />,
       },
       {
         path: "book/:slug",

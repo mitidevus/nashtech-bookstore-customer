@@ -15,9 +15,11 @@ const bookApiSlice = apiSlice.injectEndpoints({
         sort?: SortBy;
         rating?: number;
         search?: string;
+        author?: string;
+        category?: string;
       }
     >({
-      query: ({ page, take, sort, rating, search }) => ({
+      query: ({ page, take, sort, rating, search, author, category }) => ({
         url: `books`,
         params: {
           page,
@@ -25,6 +27,8 @@ const bookApiSlice = apiSlice.injectEndpoints({
           sort,
           rating,
           search,
+          authorSlugs: author,
+          categorySlugs: category,
         },
       }),
     }),
