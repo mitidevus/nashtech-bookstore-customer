@@ -1,5 +1,5 @@
 import { resetCart } from "store/slice/cartSlice";
-import { setIsLoggedIn, setUserInfo } from "store/slice/userSlice";
+import { logOut, setIsLoggedIn, setUserInfo } from "store/slice/userSlice";
 import { LoginDto, LoginResponse, SignUpDto, SignupResponse } from "types/auth";
 import { User } from "types/user";
 import auth from "utils/auth";
@@ -42,14 +42,14 @@ const userApiToastSlice = apiWithToastSlice.injectEndpoints({
 const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
     logout: build.mutation<void, void>({
-      query: (body) => ({
+      query: () => ({
         url: "auth/logout",
         method: "POST",
-        body,
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(resetCart());
+        dispatch(logOut());
       },
     }),
   }),
