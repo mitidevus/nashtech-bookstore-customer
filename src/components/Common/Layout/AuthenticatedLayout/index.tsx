@@ -11,6 +11,7 @@ import { Badge, Button, IconButton, TextField } from "@mui/material";
 import { useState } from "react";
 import { useAppSelector } from "store";
 import { selectCartItemQuantity } from "store/slice/cartSlice";
+import Footer from "../Footer";
 import { NavButton } from "../NavButton";
 import AvatarMenu from "./AvatarMenu";
 
@@ -122,6 +123,8 @@ const AuthenticatedLayout = () => {
       >
         <Outlet />
       </Container>
+
+      <Footer />
     </Box>
   );
 };

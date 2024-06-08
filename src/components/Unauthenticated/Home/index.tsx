@@ -11,6 +11,7 @@ import { Breadcrumbs } from "components/Common/Breadcrumbs";
 import CenterLoading from "components/Common/CenterLoading";
 import NoData from "components/Common/NoData";
 import { SpecialBook } from "constants/book";
+import { Link } from "react-router-dom";
 import { useLazyGetSpecialBooksQuery } from "store/api/book/bookApiSlice";
 import { Autoplay, FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -37,7 +38,7 @@ export default function Home() {
         const response = await Promise.all([
           getSpecialBooks({
             page: 1,
-            take: 8,
+            take: 20,
             type: SpecialBook.ON_SALE,
           }).unwrap(),
           getSpecialBooks({
@@ -69,7 +70,24 @@ export default function Home() {
 
   return (
     <Box minWidth={600}>
-      <Breadcrumbs />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Breadcrumbs />
+
+        <Typography
+          component={Link}
+          to="/shop"
+          color="primary"
+          fontWeight={500}
+        >
+          View all
+        </Typography>
+      </Box>
 
       <Box
         sx={{
@@ -101,13 +119,6 @@ export default function Home() {
           </Typography>
 
           {data && data.onSale.length > 0 ? (
-            // <Grid container spacing={2} px={2} py={1}>
-            //   {data.onSale.map((book) => (
-            //     <Grid item xs={6} md={4} lg={3} key={book.id}>
-            //       <BookItem book={book} />
-            //     </Grid>
-            //   ))}
-            // </Grid>
             <Box sx={{ px: 2 }}>
               <Swiper
                 modules={[Autoplay, FreeMode]}

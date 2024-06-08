@@ -24,6 +24,7 @@ import Profile from "components/Authenticated/Profile";
 import AboutUs from "components/Unauthenticated/AboutUs";
 import BookDetail from "components/Unauthenticated/BookDetail";
 import Home from "components/Unauthenticated/Home";
+import { useLazyGetCartQuery } from "store/api/cart/cartApiSlice";
 import { useLazyGetProfileQuery } from "store/api/user/userApiSlice";
 import { selectIsLoggedIn } from "store/slice/userSlice";
 import "./App.css";
@@ -138,18 +139,20 @@ const protectedRoutes = createBrowserRouter([
 function App() {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const [getProfile, { isLoading }] = useLazyGetProfileQuery();
+  const [getCart, { isLoading: cartLoading }] = useLazyGetCartQuery();
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     (async () => {
       if (isLoggedIn) {
         await getProfile().unwrap();
+        await getCart().unwrap();
       }
       setInitialized(true);
     })();
-  }, [isLoggedIn, getProfile]);
+  }, [isLoggedIn, getProfile, getCart]);
 
-  if (isLoading || !initialized) {
+  if (isLoading || !initialized || cartLoading) {
     return <CenterLoading />;
   }
 
