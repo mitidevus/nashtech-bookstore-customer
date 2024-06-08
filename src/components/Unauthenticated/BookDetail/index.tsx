@@ -227,13 +227,13 @@ export default function BookDetail() {
           <ChipList
             title="Authors"
             items={book?.authors || []}
-            onClick={(author) => navigate(`/shop/author/${author.slug}`)}
+            onClick={(author) => navigate(`/shop?author=${author.slug}`)}
           />
 
           <ChipList
             title="Categories"
             items={book?.categories || []}
-            onClick={(category) => navigate(`/shop/category/${category.slug}`)}
+            onClick={(category) => navigate(`/shop?category=${category.slug}`)}
           />
         </Grid>
 
