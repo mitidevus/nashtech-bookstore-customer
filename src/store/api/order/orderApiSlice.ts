@@ -25,6 +25,12 @@ const orderApiSlice = apiSlice.injectEndpoints({
     getOrder: build.query<Order, string>({
       query: (id) => `orders/${id}`,
     }),
+    cancelOrder: build.mutation<void, string>({
+      query: (id) => ({
+        url: `orders/${id}/cancel`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
@@ -33,4 +39,5 @@ export const {
   useLazyGetOrdersQuery,
   useGetOrderQuery,
   useLazyGetOrderQuery,
+  useCancelOrderMutation,
 } = orderApiSlice;

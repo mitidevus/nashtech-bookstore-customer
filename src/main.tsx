@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import "swiper/css";
 
 import CustomToaster from "components/Common/CustomToaster.tsx";
+import { ConfirmProvider } from "material-ui-confirm";
 import App from "./App";
 import { defaultTheme } from "./constants/themes.ts";
 import store from "./store";
@@ -24,7 +25,9 @@ root.render(
       <ThemeProvider theme={defaultTheme}>
         <CssBaseline />
         <CustomToaster />
-        <App />
+        <ConfirmProvider>
+          <App />
+        </ConfirmProvider>
       </ThemeProvider>
     </Provider>
   </StrictMode>

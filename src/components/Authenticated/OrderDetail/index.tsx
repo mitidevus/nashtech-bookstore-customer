@@ -16,19 +16,30 @@ import {
 import { Breadcrumbs } from "components/Common/Breadcrumbs";
 import CenterLoading from "components/Common/CenterLoading";
 import { DateFormat } from "constants/date";
-import { OrderStatusChip, PaymentMethodOptions } from "constants/order";
+import {
+  OrderStatus,
+  OrderStatusChip,
+  PaymentMethodOptions,
+} from "constants/order";
+import { useConfirm } from "material-ui-confirm";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useLazyGetOrderQuery } from "store/api/order/orderApiSlice";
+import {
+  useCancelOrderMutation,
+  useLazyGetOrderQuery,
+} from "store/api/order/orderApiSlice";
 import { formatCurrency } from "utils/currency";
 import { formatDate } from "utils/date";
+import { showSuccess } from "utils/toast";
 
 export default function OrderDetail() {
   const navigate = useNavigate();
+  const confirm = useConfirm();
 
   const { id: orderId } = useParams();
 
   const [getOrder, { isLoading, data: order }] = useLazyGetOrderQuery();
+  const [cancelOrder, { isLoading: isCancelling }] = useCancelOrderMutation();
 
   useEffect(() => {
     if (!orderId) {
@@ -46,6 +57,24 @@ export default function OrderDetail() {
     })();
   }, [getOrder, navigate, orderId]);
 
+  const handleCancelOrder = async () => {
+    try {
+      await confirm({
+        title: "Cancel order",
+        description: "Are you sure you want to cancel this order?",
+        confirmationText: "Yes",
+        cancellationText: "No",
+      });
+
+      await cancelOrder(orderId!).unwrap();
+      await getOrder(orderId!).unwrap();
+      showSuccess("Cancelled order successfully");
+      return;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const customRoutes = [
     {
       path: "/order",
@@ -57,7 +86,7 @@ export default function OrderDetail() {
     },
   ];
 
-  if (isLoading) {
+  if (isLoading || isCancelling) {
     return <CenterLoading />;
   }
 
@@ -344,9 +373,19 @@ export default function OrderDetail() {
             <Button variant="outlined" onClick={() => navigate("/order")}>
               Back to order history
             </Button>
-            <Button variant="contained" onClick={() => navigate(`/shop`)}>
-              Continue shopping
-            </Button>
+            {order?.status === OrderStatus.PENDING ? (
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleCancelOrder}
+              >
+                Cancel order
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={() => navigate(`/shop`)}>
+                Continue shopping
+              </Button>
+            )}
           </Box>
         </Paper>
       </Box>
