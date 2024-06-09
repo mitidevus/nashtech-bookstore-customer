@@ -39,7 +39,7 @@ function SearchableAccordion({
 
   const filteredItems = useMemo(
     () =>
-      items.filter((item) =>
+      items?.filter((item) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
       ),
     [items, searchQuery]
@@ -88,7 +88,7 @@ function SearchableAccordion({
       <AccordionDetails
         sx={{ maxHeight: 400, overflowY: "auto", ...ScrollbarStyle }}
       >
-        {items.length > 0 ? (
+        {items?.length > 0 ? (
           <>
             <TextField
               fullWidth
