@@ -29,10 +29,12 @@ function SearchableAccordion({
   title,
   items,
   queryParam,
+  setPage,
 }: {
   title: string;
   items: Author[] | Category[];
   queryParam: string;
+  setPage: (page: number) => void;
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
@@ -60,8 +62,9 @@ function SearchableAccordion({
       }
 
       setSearchParams(currentSearchParams);
+      setPage(1);
     },
-    [searchParams, setSearchParams, queryParam]
+    [searchParams, queryParam, setSearchParams, setPage]
   );
 
   const isChecked = useCallback(
@@ -192,6 +195,7 @@ export default function ShopPage() {
       }
 
       setSearchParams(currentSearchParams);
+      setPage(1);
     },
     [searchParams, setSearchParams]
   );
@@ -209,11 +213,13 @@ export default function ShopPage() {
             title="Author"
             items={authors as Author[]}
             queryParam="author"
+            setPage={setPage}
           />
           <SearchableAccordion
             title="Category"
             items={categories as Category[]}
             queryParam="category"
+            setPage={setPage}
           />
           <Accordion>
             <AccordionSummary
