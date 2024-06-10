@@ -375,22 +375,12 @@ export default function BookDetail() {
                 <QuantityInput quantity={quantity} setQuantity={setQuantity} />
 
                 <Button
-                  variant="outlined"
-                  fullWidth
-                  color="primary"
+                  variant="contained"
+                  color="error"
                   disabled={isAddingToCart}
                   onClick={handleAddToCart}
                 >
                   Add to cart
-                </Button>
-
-                <Button
-                  variant="contained"
-                  fullWidth
-                  color="error"
-                  onClick={() => navigate(`/checkout/${book?.id}`)}
-                >
-                  Buy now
                 </Button>
               </Stack>
             </Stack>
